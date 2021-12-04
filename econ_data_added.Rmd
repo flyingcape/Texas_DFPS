@@ -1,0 +1,112 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(dplyr) 
+library(tidyr) 
+library(ggplot2) 
+library(readr)
+library(maps)
+library(usmap)
+library(gridExtra)
+
+library(biscale)
+library(cowplot)
+library(viridis) # viridis color scale
+library(sf)
+
+map_data <-read.csv("CData/map_data.csv")
+
+edata <-read.csv("Data/econ_region_counties.csv")
+
+data <-read.csv("Data/Texas_Regional_Economic_Snapshots.csv")
+data = rename(data, Econ_Region = Region)
+
+data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Physician Access"), starts_with("Uninsured Rate"), starts_with("Graduation Rate"), starts_with("Personal Income per Capita"), starts_with("Average Wages"), starts_with("Population Density"))
+
+PA_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Physician Access")) %>%
+  pivot_longer(
+   cols = starts_with("Physician Access"),
+   names_to = "Year",
+   names_prefix = "Physician Access",
+   values_to = "Physician_Access",
+   values_drop_na = TRUE
+ )
+
+UR_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Uninsured Rate")) %>%
+  pivot_longer(
+   cols = starts_with("Uninsured Rate"),
+   names_to = "Year",
+   names_prefix = "Uninsured Rate",
+   values_to = "Uninsured Rate",
+   values_drop_na = TRUE
+ )
+
+GR_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Graduation Rate")) %>%
+  pivot_longer(
+   cols = starts_with("Graduation Rate"),
+   names_to = "Year",
+   names_prefix = "Graduation Rate",
+   values_to = "Graduation Rate",
+   values_drop_na = TRUE
+ )
+
+PI_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Personal Income per Capita")) %>%
+  pivot_longer(
+   cols = starts_with("Personal Income per Capita"),
+   names_to = "Year",
+   names_prefix = "Personal Income per Capita",
+   values_to = "Personal Income per Capita",
+   values_drop_na = TRUE
+ )
+
+AW_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Average Wages")) %>%
+  pivot_longer(
+   cols = starts_with("Average Wages"),
+   names_to = "Year",
+   names_prefix = "Average Wages",
+   values_to = "Average Wages",
+   values_drop_na = TRUE
+ )
+
+PD_data <- data %>% pivot_wider(names_from = Category, values_from = Value) %>%
+  select("Econ_Region",starts_with("Population Density")) %>%
+  pivot_longer(
+   cols = starts_with("Population Density"),
+   names_to = "Year",
+   names_prefix = "Population Density",
+   values_to = "Population Density",
+   values_drop_na = TRUE
+ )
+
+```
+
+```{r}
+econ_data <-
+  merge(PA_data, UR_data, by = c("Econ_Region", "Year")) %>%
+  merge(GR_data, by = c("Econ_Region", "Year")) %>%
+  merge(PI_data, by = c("Econ_Region", "Year")) %>%
+  merge(AW_data, by = c("Econ_Region", "Year")) %>%
+  merge(PD_data, by = c("Econ_Region", "Year")) 
+
+econ_data$Year = as.integer(econ_data$Year)
+```
+
+
+```{r}
+map_data <- merge(map_data, edata, by = c("County")) %>%
+   merge(econ_data, by = c("Econ_Region", "Year"), all = TRUE) %>%
+   filter(County != "NA")
+   
+
+write_csv(map_data, "CData/map_data_cont.csv")
+```
+

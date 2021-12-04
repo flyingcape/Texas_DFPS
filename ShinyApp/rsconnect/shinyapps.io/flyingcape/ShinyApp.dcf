@@ -1,0 +1,13 @@
+name: ShinyApp
+title: ShinyApp
+username:
+account: flyingcape
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5264703
+bundleId: 5326033
+url: https://flyingcape.shinyapps.io/ShinyApp/
+when: 1638593635.15069
+lastSyncTime: 1638593635.1507
+asMultiple: FALSE
+asStatic: FALSE

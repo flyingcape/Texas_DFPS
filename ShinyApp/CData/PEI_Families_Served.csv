@@ -1,0 +1,575 @@
+Year,County,Region,Program,Families_Served
+2020,Andrews,9-Midland,THV MIECHV,3
+2020,Aransas,11-Edinburg,THV MIECHV,1
+2020,Archer,2-Abilene,THV MIECHV,8
+2020,Atascosa,8-San Antonio,HIP,1
+2020,Atascosa,8-San Antonio,HOPES,1
+2020,Atascosa,8-San Antonio,THV MIECHV,1
+2020,Atascosa,8-San Antonio,TNFP,3
+2020,Bandera,8-San Antonio,TNFP,1
+2020,Bastrop,7-Austin,HOPES,1
+2020,Bastrop,7-Austin,THV MIECHV,190
+2020,Bastrop,7-Austin,TNFP,5
+2020,Bell,7-Austin,HIP,32
+2020,Bell,7-Austin,HOPES,223
+2020,Bell,7-Austin,TNFP,9
+2020,Bexar,8-San Antonio,HIP,143
+2020,Bexar,8-San Antonio,HOPES,1021
+2020,Bexar,8-San Antonio,THV MIECHV,393
+2020,Bexar,8-San Antonio,TNFP,724
+2020,Bosque,7-Austin,HOPES,7
+2020,Bowie,4-Tyler,HIP,3
+2020,Brazoria,6-Houston,HOPES,9
+2020,Brazoria,6-Houston,THV STATE,1
+2020,Brazoria,6-Houston,TNFP,6
+2020,Brazos,7-Austin,HOPES,177
+2020,Brown,2-Abilene,HIP,12
+2020,Burnet,7-Austin,HOPES,6
+2020,Caldwell,7-Austin,THV MIECHV,4
+2020,Caldwell,7-Austin,TNFP,2
+2020,Callahan,2-Abilene,HOPES,10
+2020,Cameron,11-Edinburg,HIP,15
+2020,Cameron,11-Edinburg,HOPES,329
+2020,Cameron,11-Edinburg,THV MIECHV,79
+2020,Cameron,11-Edinburg,TNFP,3
+2020,Carson,1-Lubbock,THV MIECHV,1
+2020,Cass,4-Tyler,HIP,1
+2020,Cass,4-Tyler,THV MIECHV,1
+2020,Chambers,6-Houston,HOPES,1
+2020,Chambers,6-Houston,THV STATE,1
+2020,Chambers,6-Houston,TNFP,2
+2020,Cherokee,4-Tyler,HIP,2
+2020,Cherokee,4-Tyler,THV MIECHV,4
+2020,Clay,2-Abilene,HOPES,3
+2020,Clay,2-Abilene,THV MIECHV,2
+2020,Coleman,2-Abilene,HIP,5
+2020,Collin,3-Arlington,HIP,1
+2020,Collin,3-Arlington,HOPES,3
+2020,Collin,3-Arlington,THV MIECHV,142
+2020,Collin,3-Arlington,TNFP,26
+2020,Comal,8-San Antonio,HIP,1
+2020,Comal,8-San Antonio,HOPES,3
+2020,Comal,8-San Antonio,THV MIECHV,1
+2020,Comal,8-San Antonio,TNFP,6
+2020,Comanche,2-Abilene,HIP,1
+2020,Coryell,7-Austin,HIP,5
+2020,Coryell,7-Austin,HOPES,45
+2020,Crosby,1-Lubbock,TNFP,3
+2020,Dallas,3-Arlington,HIP,37
+2020,Dallas,3-Arlington,HOPES,579
+2020,Dallas,3-Arlington,THV MIECHV,411
+2020,Dallas,3-Arlington,TNFP,489
+2020,Deaf Smith,1-Lubbock,THV MIECHV,1
+2020,Denton,3-Arlington,HIP,10
+2020,Denton,3-Arlington,HOPES,49
+2020,Denton,3-Arlington,THV MIECHV,2
+2020,Denton,3-Arlington,TNFP,23
+2020,Eastland,2-Abilene,HIP,3
+2020,Ector,9-Midland,HOPES,96
+2020,Ector,9-Midland,THV MIECHV,176
+2020,Ellis,3-Arlington,HOPES,20
+2020,Ellis,3-Arlington,TNFP,2
+2020,El Paso,10-El Paso,HOPES,402
+2020,El Paso,10-El Paso,TNFP,150
+2020,Erath,3-Arlington,HOPES,2
+2020,Falls,7-Austin,HIP,1
+2020,Falls,7-Austin,TNFP,2
+2020,Fannin,3-Arlington,HIP,1
+2020,Fisher,2-Abilene,HIP,1
+2020,Fort Bend,6-Houston,HOPES,26
+2020,Fort Bend,6-Houston,THV STATE,13
+2020,Fort Bend,6-Houston,TNFP,24
+2020,Galveston,6-Houston,HIP,1
+2020,Galveston,6-Houston,HOPES,102
+2020,Galveston,6-Houston,TNFP,11
+2020,Garza,1-Lubbock,TNFP,1
+2020,Goliad,8-San Antonio,THV MIECHV,1
+2020,Gregg,4-Tyler,HIP,3
+2020,Gregg,4-Tyler,HOPES,151
+2020,Gregg,4-Tyler,THV MIECHV,223
+2020,Guadalupe,8-San Antonio,HIP,1
+2020,Guadalupe,8-San Antonio,HOPES,1
+2020,Guadalupe,8-San Antonio,THV MIECHV,14
+2020,Guadalupe,8-San Antonio,TNFP,5
+2020,Hale,1-Lubbock,TNFP,6
+2020,Hamilton,7-Austin,HOPES,2
+2020,Hardin,5-Beaumont,HOPES,1
+2020,Hardin,5-Beaumont,TNFP,11
+2020,Harris,6-Houston,HIP,10
+2020,Harris,6-Houston,HOPES,831
+2020,Harris,6-Houston,THV STATE,440
+2020,Harris,6-Houston,TNFP,560
+2020,Harrison,4-Tyler,HOPES,19
+2020,Harrison,4-Tyler,THV MIECHV,24
+2020,Haskell,2-Abilene,HIP,2
+2020,Hays,7-Austin,HOPES,2
+2020,Hays,7-Austin,THV MIECHV,141
+2020,Hays,7-Austin,TNFP,18
+2020,Henderson,4-Tyler,TNFP,14
+2020,Hidalgo,11-Edinburg,HIP,44
+2020,Hidalgo,11-Edinburg,HOPES,498
+2020,Hidalgo,11-Edinburg,THV MIECHV,273
+2020,Hidalgo,11-Edinburg,TNFP,175
+2020,Hill,7-Austin,HOPES,5
+2020,Hockley,1-Lubbock,HOPES,2
+2020,Hockley,1-Lubbock,TNFP,7
+2020,Hood,3-Arlington,HOPES,14
+2020,Howard,9-Midland,THV MIECHV,1
+2020,Hudspeth,10-El Paso,HOPES,1
+2020,Hutchinson,1-Lubbock,TNFP,1
+2020,Jefferson,5-Beaumont,HOPES,110
+2020,Jefferson,5-Beaumont,TNFP,118
+2020,Jim Wells,11-Edinburg,THV MIECHV,1
+2020,Johnson,3-Arlington,HOPES,88
+2020,Jones,2-Abilene,HOPES,12
+2020,Kendall,8-San Antonio,HOPES,1
+2020,Kendall,8-San Antonio,THV MIECHV,1
+2020,Kleberg,11-Edinburg,HOPES,4
+2020,Lamar,4-Tyler,HIP,1
+2020,Lamb,1-Lubbock,TNFP,5
+2020,Lampasas,7-Austin,HOPES,13
+2020,Liberty,6-Houston,HOPES,1
+2020,Liberty,6-Houston,THV STATE,2
+2020,Limestone,7-Austin,HOPES,1
+2020,Limestone,7-Austin,TNFP,2
+2020,Llano,7-Austin,HOPES,6
+2020,Llano,7-Austin,TNFP,1
+2020,Lubbock,1-Lubbock,HOPES,198
+2020,Lubbock,1-Lubbock,TNFP,241
+2020,Lynn,1-Lubbock,TNFP,2
+2020,Matagorda,6-Houston,THV MIECHV,1
+2020,Maverick,8-San Antonio,HOPES,1
+2020,McLennan,7-Austin,HIP,24
+2020,McLennan,7-Austin,HOPES,182
+2020,McLennan,7-Austin,TNFP,268
+2020,Medina,8-San Antonio,HIP,1
+2020,Medina,8-San Antonio,HOPES,2
+2020,Medina,8-San Antonio,THV MIECHV,1
+2020,Midland,9-Midland,HOPES,16
+2020,Midland,9-Midland,THV MIECHV,92
+2020,Milam,7-Austin,HOPES,10
+2020,Montgomery,6-Houston,HOPES,132
+2020,Montgomery,6-Houston,THV STATE,181
+2020,Morris,4-Tyler,HIP,1
+2020,Morris,4-Tyler,THV MIECHV,1
+2020,Navarro,3-Arlington,HOPES,44
+2020,Newton,5-Beaumont,TNFP,1
+2020,Nolan,2-Abilene,HIP,2
+2020,Nolan,2-Abilene,HOPES,9
+2020,Nueces,11-Edinburg,HOPES,72
+2020,Nueces,11-Edinburg,THV MIECHV,379
+2020,Orange,5-Beaumont,HIP,1
+2020,Orange,5-Beaumont,TNFP,35
+2020,Palo Pinto,3-Arlington,HOPES,1
+2020,Panola,4-Tyler,THV MIECHV,1
+2020,Parker,3-Arlington,HIP,4
+2020,Parker,3-Arlington,HOPES,10
+2020,Parker,3-Arlington,TNFP,1
+2020,Potter,1-Lubbock,HOPES,125
+2020,Potter,1-Lubbock,THV MIECHV,138
+2020,Randall,1-Lubbock,HOPES,34
+2020,Randall,1-Lubbock,THV MIECHV,83
+2020,Reagan,9-Midland,THV MIECHV,1
+2020,Rockwall,3-Arlington,TNFP,1
+2020,Runnels,2-Abilene,HIP,4
+2020,Rusk,4-Tyler,HOPES,9
+2020,Rusk,4-Tyler,THV MIECHV,9
+2020,San Patricio,11-Edinburg,HOPES,28
+2020,San Patricio,11-Edinburg,THV MIECHV,2
+2020,Scurry,2-Abilene,HIP,3
+2020,Shackelford,2-Abilene,HOPES,2
+2020,Smith,4-Tyler,HIP,1
+2020,Smith,4-Tyler,THV MIECHV,254
+2020,Smith,4-Tyler,TNFP,25
+2020,Somervell,3-Arlington,HOPES,1
+2020,Starr,11-Edinburg,THV MIECHV,204
+2020,Tarrant,3-Arlington,HIP,15
+2020,Tarrant,3-Arlington,HOPES,795
+2020,Tarrant,3-Arlington,THV STATE,210
+2020,Tarrant,3-Arlington,TNFP,243
+2020,Taylor,2-Abilene,HIP,2
+2020,Taylor,2-Abilene,HOPES,152
+2020,Taylor,2-Abilene,TNFP,1
+2020,Terry,1-Lubbock,TNFP,6
+2020,Throckmorton,2-Abilene,HIP,1
+2020,Tom Green,9-Midland,THV STATE,70
+2020,Travis,7-Austin,HIP,33
+2020,Travis,7-Austin,HOPES,588
+2020,Travis,7-Austin,THV MIECHV,962
+2020,Travis,7-Austin,TNFP,321
+2020,Upshur,4-Tyler,HOPES,12
+2020,Upshur,4-Tyler,THV MIECHV,16
+2020,Uvalde,8-San Antonio,TNFP,1
+2020,Victoria,8-San Antonio,HOPES,1
+2020,Victoria,8-San Antonio,THV MIECHV,203
+2020,Walker,6-Houston,HOPES,1
+2020,Webb,11-Edinburg,HOPES,323
+2020,Webb,11-Edinburg,TNFP,98
+2020,Wichita,2-Abilene,HIP,1
+2020,Wichita,2-Abilene,HOPES,70
+2020,Wichita,2-Abilene,THV MIECHV,343
+2020,Wilbarger,2-Abilene,HIP,1
+2020,Wilbarger,2-Abilene,THV MIECHV,1
+2020,Willacy,11-Edinburg,THV MIECHV,7
+2020,Willacy,11-Edinburg,TNFP,33
+2020,Williamson,7-Austin,HOPES,43
+2020,Williamson,7-Austin,THV MIECHV,8
+2020,Williamson,7-Austin,TNFP,98
+2020,Wilson,8-San Antonio,HOPES,1
+2020,Wilson,8-San Antonio,THV MIECHV,1
+2020,Wise,3-Arlington,HOPES,1
+2020,Wood,4-Tyler,THV MIECHV,1
+2020,Wood,4-Tyler,TNFP,1
+2020,Young,2-Abilene,HIP,6
+2020,Out of State,Out of State,HOPES,1
+2019,Angelina,5-Beaumont,HIP,2
+2019,Atascosa,8-San Antonio,HOPES,1
+2019,Austin,6-Houston,HIP,1
+2019,Bastrop,7-Austin,HOPES,3
+2019,Bell,7-Austin,HIP,15
+2019,Bell,7-Austin,HOPES,106
+2019,Bexar,8-San Antonio,HIP,96
+2019,Bexar,8-San Antonio,HOPES,702
+2019,Bosque,7-Austin,HOPES,1
+2019,Bowie,4-Tyler,HIP,3
+2019,Brazoria,6-Houston,HOPES,10
+2019,Brazos,7-Austin,HOPES,143
+2019,Callahan,2-Abilene,HOPES,6
+2019,Cameron,11-Edinburg,HIP,8
+2019,Cameron,11-Edinburg,HOPES,341
+2019,Clay,2-Abilene,HOPES,1
+2019,Collin,3-Arlington,HIP,2
+2019,Colorado,6-Houston,HIP,1
+2019,Comal,8-San Antonio,HIP,2
+2019,Coryell,7-Austin,HIP,4
+2019,Coryell,7-Austin,HOPES,29
+2019,Dallas,3-Arlington,HIP,37
+2019,Dallas,3-Arlington,HOPES,584
+2019,Denton,3-Arlington,HIP,1
+2019,Denton,3-Arlington,HOPES,104
+2019,Ector,9-Midland,HOPES,72
+2019,Ellis,3-Arlington,HIP,1
+2019,Ellis,3-Arlington,HOPES,21
+2019,El Paso,10-El Paso,HOPES,561
+2019,Falls,7-Austin,HIP,1
+2019,Fort Bend,6-Houston,HOPES,18
+2019,Galveston,6-Houston,HIP,2
+2019,Galveston,6-Houston,HOPES,96
+2019,Gregg,4-Tyler,HIP,8
+2019,Gregg,4-Tyler,HOPES,228
+2019,Harris,6-Houston,HIP,42
+2019,Harris,6-Houston,HOPES,841
+2019,Harrison,4-Tyler,HIP,1
+2019,Harrison,4-Tyler,HOPES,16
+2019,Hays,7-Austin,HIP,1
+2019,Hidalgo,11-Edinburg,HIP,7
+2019,Hidalgo,11-Edinburg,HOPES,602
+2019,Hill,7-Austin,HIP,1
+2019,Hudspeth,10-El Paso,HOPES,1
+2019,Jasper,5-Beaumont,HIP,1
+2019,Jefferson,5-Beaumont,HIP,2
+2019,Jefferson,5-Beaumont,HOPES,218
+2019,Johnson,3-Arlington,HIP,4
+2019,Johnson,3-Arlington,HOPES,84
+2019,Jones,2-Abilene,HOPES,12
+2019,Kaufman,3-Arlington,HIP,1
+2019,Kleberg,11-Edinburg,HOPES,4
+2019,Lampasas,7-Austin,HIP,1
+2019,Lampasas,7-Austin,HOPES,5
+2019,Liberty,6-Houston,HOPES,2
+2019,Lubbock,1-Lubbock,HIP,3
+2019,Lubbock,1-Lubbock,HOPES,217
+2019,McLennan,7-Austin,HIP,13
+2019,McLennan,7-Austin,HOPES,155
+2019,Medina,8-San Antonio,HOPES,1
+2019,Midland,9-Midland,HOPES,13
+2019,Montgomery,6-Houston,HIP,6
+2019,Montgomery,6-Houston,HOPES,145
+2019,Nacogdoches,5-Beaumont,HIP,1
+2019,Navarro,3-Arlington,HIP,1
+2019,Nolan,2-Abilene,HOPES,3
+2019,Nueces,11-Edinburg,HOPES,81
+2019,Orange,5-Beaumont,HIP,2
+2019,Parker,3-Arlington,HIP,1
+2019,Polk,5-Beaumont,HIP,1
+2019,Potter,1-Lubbock,HOPES,148
+2019,Randall,1-Lubbock,HOPES,31
+2019,Rusk,4-Tyler,HIP,1
+2019,Rusk,4-Tyler,HOPES,4
+2019,San Jacinto,5-Beaumont,HIP,1
+2019,San Patricio,11-Edinburg,HOPES,38
+2019,Shackelford,2-Abilene,HOPES,3
+2019,Smith,4-Tyler,HIP,2
+2019,Tarrant,3-Arlington,HIP,13
+2019,Tarrant,3-Arlington,HOPES,754
+2019,Taylor,2-Abilene,HOPES,105
+2019,Travis,7-Austin,HIP,26
+2019,Travis,7-Austin,HOPES,411
+2019,Upshur,4-Tyler,HIP,1
+2019,Upshur,4-Tyler,HOPES,22
+2019,Van Zandt,4-Tyler,HIP,1
+2019,Walker,6-Houston,HIP,1
+2019,Waller,6-Houston,HOPES,1
+2019,Webb,11-Edinburg,HOPES,239
+2019,Wichita,2-Abilene,HOPES,88
+2019,Williamson,7-Austin,HOPES,37
+2019,Wilson,8-San Antonio,HOPES,1
+2019,Wood,4-Tyler,HIP,1
+2019,Out of State,Out of State,HOPES,3
+2018,Anderson,4-Tyler,HIP,2
+2018,Andrews,9-Midland,HIP,1
+2018,Angelina,5-Beaumont,HIP,5
+2018,Atascosa,8-San Antonio,HOPES,1
+2018,Bastrop,7-Austin,HOPES,4
+2018,Bell,7-Austin,HIP,13
+2018,Bell,7-Austin,HOPES,121
+2018,Bexar,8-San Antonio,HIP,43
+2018,Bexar,8-San Antonio,HOPES,527
+2018,Bowie,4-Tyler,HIP,1
+2018,Brazoria,6-Houston,HIP,2
+2018,Brazoria,6-Houston,HOPES,2
+2018,Brazos,7-Austin,HOPES,116
+2018,Brown,2-Abilene,HIP,3
+2018,Caldwell,7-Austin,HIP,1
+2018,Callahan,2-Abilene,HIP,1
+2018,Callahan,2-Abilene,HOPES,2
+2018,Cameron,11-Edinburg,HOPES,333
+2018,Chambers,6-Houston,HOPES,1
+2018,Cherokee,4-Tyler,HIP,1
+2018,Clay,2-Abilene,HOPES,3
+2018,Coryell,7-Austin,HIP,1
+2018,Coryell,7-Austin,HOPES,19
+2018,Dallas,3-Arlington,HIP,34
+2018,Dallas,3-Arlington,HOPES,526
+2018,Dawson,9-Midland,HIP,2
+2018,Denton,3-Arlington,HIP,2
+2018,Denton,3-Arlington,HOPES,120
+2018,Eastland,2-Abilene,HIP,1
+2018,Ector,9-Midland,HOPES,64
+2018,Ellis,3-Arlington,HOPES,32
+2018,El Paso,10-El Paso,HOPES,507
+2018,Fort Bend,6-Houston,HIP,3
+2018,Fort Bend,6-Houston,HOPES,21
+2018,Galveston,6-Houston,HIP,1
+2018,Galveston,6-Houston,HOPES,82
+2018,Grayson,3-Arlington,HIP,1
+2018,Gregg,4-Tyler,HIP,4
+2018,Gregg,4-Tyler,HOPES,234
+2018,Guadalupe,8-San Antonio,HIP,2
+2018,Hardin,5-Beaumont,HIP,4
+2018,Hardin,5-Beaumont,HOPES,1
+2018,Harris,6-Houston,HIP,37
+2018,Harris,6-Houston,HOPES,641
+2018,Harrison,4-Tyler,HIP,3
+2018,Harrison,4-Tyler,HOPES,15
+2018,Hays,7-Austin,HIP,2
+2018,Hidalgo,11-Edinburg,HOPES,734
+2018,Hood,3-Arlington,HIP,1
+2018,Howard,9-Midland,HIP,2
+2018,Hudspeth,10-El Paso,HOPES,1
+2018,Hunt,3-Arlington,HIP,2
+2018,Jack,2-Abilene,HIP,1
+2018,Jasper,5-Beaumont,HIP,5
+2018,Jefferson,5-Beaumont,HIP,15
+2018,Jefferson,5-Beaumont,HOPES,192
+2018,Johnson,3-Arlington,HOPES,82
+2018,Jones,2-Abilene,HOPES,22
+2018,Kaufman,3-Arlington,HIP,1
+2018,Kleberg,11-Edinburg,HOPES,3
+2018,Lampasas,7-Austin,HOPES,5
+2018,Lavaca,8-San Antonio,HIP,1
+2018,Liberty,6-Houston,HOPES,2
+2018,Lubbock,1-Lubbock,HIP,5
+2018,Lubbock,1-Lubbock,HOPES,200
+2018,McLennan,7-Austin,HIP,3
+2018,McLennan,7-Austin,HOPES,124
+2018,Medina,8-San Antonio,HOPES,1
+2018,Midland,9-Midland,HIP,3
+2018,Midland,9-Midland,HOPES,16
+2018,Montague,2-Abilene,HIP,1
+2018,Montgomery,6-Houston,HIP,5
+2018,Montgomery,6-Houston,HOPES,149
+2018,Nacogdoches,5-Beaumont,HIP,4
+2018,Navarro,3-Arlington,HIP,1
+2018,Nolan,2-Abilene,HOPES,6
+2018,Nueces,11-Edinburg,HOPES,100
+2018,Orange,5-Beaumont,HIP,2
+2018,Orange,5-Beaumont,HOPES,1
+2018,Palo Pinto,3-Arlington,HIP,1
+2018,Parker,3-Arlington,HIP,1
+2018,Polk,5-Beaumont,HIP,1
+2018,Potter,1-Lubbock,HOPES,113
+2018,Randall,1-Lubbock,HOPES,27
+2018,Rusk,4-Tyler,HOPES,3
+2018,San Patricio,11-Edinburg,HOPES,27
+2018,Shackelford,2-Abilene,HOPES,4
+2018,Smith,4-Tyler,HIP,1
+2018,Tarrant,3-Arlington,HIP,15
+2018,Tarrant,3-Arlington,HOPES,732
+2018,Taylor,2-Abilene,HIP,2
+2018,Taylor,2-Abilene,HOPES,202
+2018,Travis,7-Austin,HIP,18
+2018,Travis,7-Austin,HOPES,572
+2018,Trinity,5-Beaumont,HIP,2
+2018,Upshur,4-Tyler,HOPES,15
+2018,Walker,6-Houston,HOPES,1
+2018,Waller,6-Houston,HOPES,2
+2018,Webb,11-Edinburg,HOPES,216
+2018,Wichita,2-Abilene,HIP,5
+2018,Wichita,2-Abilene,HOPES,130
+2018,Williamson,7-Austin,HOPES,39
+2018,Wise,3-Arlington,HOPES,1
+2018,Out of State,Out of State,HOPES,1
+2017,Atascosa,8-San Antonio,HIP,1
+2017,Bastrop,7-Austin,HOPES,5
+2017,Bell,7-Austin,HOPES,14
+2017,Bexar,8-San Antonio,HIP,64
+2017,Bexar,8-San Antonio,HOPES,95
+2017,Brazoria,6-Houston,HIP,2
+2017,Brazoria,6-Houston,HOPES,4
+2017,Brazos,7-Austin,HOPES,36
+2017,Caldwell,7-Austin,HOPES,1
+2017,Callahan,2-Abilene,HOPES,4
+2017,Cameron,11-Edinburg,HOPES,224
+2017,Chambers,6-Houston,HOPES,2
+2017,Clay,2-Abilene,HOPES,2
+2017,Collin,3-Arlington,HIP,3
+2017,Colorado,6-Houston,HIP,1
+2017,Comal,8-San Antonio,HIP,2
+2017,Coryell,7-Austin,HOPES,2
+2017,Dallam,1-Lubbock,HOPES,1
+2017,Dallas,3-Arlington,HIP,33
+2017,Dallas,3-Arlington,HOPES,549
+2017,Dawson,9-Midland,HIP,1
+2017,Denton,3-Arlington,HOPES,25
+2017,Ector,9-Midland,HIP,4
+2017,Ector,9-Midland,HOPES,55
+2017,Ellis,3-Arlington,HIP,1
+2017,Ellis,3-Arlington,HOPES,6
+2017,El Paso,10-El Paso,HOPES,539
+2017,Fannin,3-Arlington,HIP,1
+2017,Fort Bend,6-Houston,HIP,2
+2017,Fort Bend,6-Houston,HOPES,20
+2017,Galveston,6-Houston,HIP,1
+2017,Galveston,6-Houston,HOPES,12
+2017,Grayson,3-Arlington,HIP,2
+2017,Gregg,4-Tyler,HIP,5
+2017,Gregg,4-Tyler,HOPES,186
+2017,Guadalupe,8-San Antonio,HIP,4
+2017,Hardin,5-Beaumont,HOPES,10
+2017,Harris,6-Houston,HIP,33
+2017,Harris,6-Houston,HOPES,498
+2017,Harrison,4-Tyler,HIP,1
+2017,Hays,7-Austin,HIP,2
+2017,Hays,7-Austin,HOPES,3
+2017,Henderson,4-Tyler,HIP,2
+2017,Hidalgo,11-Edinburg,HOPES,528
+2017,Hood,3-Arlington,HIP,1
+2017,Howard,9-Midland,HIP,5
+2017,Hunt,3-Arlington,HIP,1
+2017,Hunt,3-Arlington,HOPES,2
+2017,Jasper,5-Beaumont,HOPES,1
+2017,Jefferson,5-Beaumont,HOPES,127
+2017,Johnson,3-Arlington,HOPES,11
+2017,Jones,2-Abilene,HOPES,17
+2017,Kaufman,3-Arlington,HIP,3
+2017,Kleberg,11-Edinburg,HOPES,7
+2017,Lavaca,8-San Antonio,HIP,1
+2017,Liberty,6-Houston,HOPES,2
+2017,Lubbock,1-Lubbock,HIP,3
+2017,Lubbock,1-Lubbock,HOPES,208
+2017,McLennan,7-Austin,HOPES,109
+2017,Midland,9-Midland,HIP,3
+2017,Midland,9-Midland,HOPES,11
+2017,Montgomery,6-Houston,HIP,7
+2017,Montgomery,6-Houston,HOPES,30
+2017,Navarro,3-Arlington,HIP,2
+2017,Nolan,2-Abilene,HOPES,10
+2017,Nueces,11-Edinburg,HOPES,88
+2017,Orange,5-Beaumont,HOPES,3
+2017,Palo Pinto,3-Arlington,HIP,2
+2017,Parker,3-Arlington,HIP,1
+2017,Pecos,9-Midland,HIP,1
+2017,Potter,1-Lubbock,HOPES,73
+2017,Randall,1-Lubbock,HOPES,30
+2017,Rockwall,3-Arlington,HOPES,1
+2017,Rusk,4-Tyler,HIP,1
+2017,San Patricio,11-Edinburg,HOPES,4
+2017,Shackelford,2-Abilene,HOPES,4
+2017,Smith,4-Tyler,HIP,2
+2017,Starr,11-Edinburg,HOPES,1
+2017,Tarrant,3-Arlington,HIP,7
+2017,Tarrant,3-Arlington,HOPES,83
+2017,Taylor,2-Abilene,HIP,7
+2017,Taylor,2-Abilene,HOPES,126
+2017,Tom Green,9-Midland,HIP,3
+2017,Travis,7-Austin,HIP,27
+2017,Travis,7-Austin,HOPES,628
+2017,Val Verde,8-San Antonio,HOPES,1
+2017,Van Zandt,4-Tyler,HIP,2
+2017,Van Zandt,4-Tyler,HOPES,1
+2017,Walker,6-Houston,HOPES,1
+2017,Webb,11-Edinburg,HOPES,186
+2017,Wichita,2-Abilene,HOPES,73
+2017,Williamson,7-Austin,HIP,5
+2017,Williamson,7-Austin,HOPES,42
+2017,Wise,3-Arlington,HIP,1
+2017,Wood,4-Tyler,HOPES,1
+2016,Archer,2-Abilene,HOPES,1
+2016,Bexar,8-San Antonio,HIP,9
+2016,Brazoria,6-Houston,HOPES,2
+2016,Cameron,11-Edinburg,HOPES,258
+2016,Collin,3-Arlington,HIP,1
+2016,Dallas,3-Arlington,HIP,10
+2016,Dallas,3-Arlington,HOPES,53
+2016,Denton,3-Arlington,HIP,1
+2016,Ector,9-Midland,HOPES,123
+2016,El Paso,10-El Paso,HOPES,517
+2016,Fort Bend,6-Houston,HOPES,3
+2016,Gregg,4-Tyler,HOPES,142
+2016,Guadalupe,8-San Antonio,HIP,2
+2016,Hardin,5-Beaumont,HOPES,3
+2016,Harris,6-Houston,HOPES,157
+2016,Hidalgo,11-Edinburg,HOPES,336
+2016,Houston,5-Beaumont,HOPES,1
+2016,Jefferson,5-Beaumont,HOPES,78
+2016,Jones,2-Abilene,HOPES,5
+2016,Kleberg,11-Edinburg,HOPES,1
+2016,Lubbock,1-Lubbock,HOPES,104
+2016,McLennan,7-Austin,HOPES,27
+2016,Midland,9-Midland,HOPES,6
+2016,Nolan,2-Abilene,HOPES,1
+2016,Nueces,11-Edinburg,HOPES,21
+2016,Orange,5-Beaumont,HOPES,3
+2016,Potter,1-Lubbock,HOPES,68
+2016,Randall,1-Lubbock,HOPES,18
+2016,Shackelford,2-Abilene,HOPES,4
+2016,Tarrant,3-Arlington,HOPES,1
+2016,Taylor,2-Abilene,HOPES,30
+2016,Travis,7-Austin,HIP,3
+2016,Travis,7-Austin,HOPES,426
+2016,Webb,11-Edinburg,HOPES,188
+2016,Wichita,2-Abilene,HOPES,37
+2016,Williamson,7-Austin,HIP,3
+2016,Williamson,7-Austin,HOPES,20
+2015,Austin,6-Houston,HIP,1
+2015,Bexar,8-San Antonio,HIP,14
+2015,Cameron,11-Edinburg,HOPES,175
+2015,Dallas,3-Arlington,HIP,10
+2015,Ector,9-Midland,HOPES,79
+2015,El Paso,10-El Paso,HOPES,405
+2015,Galveston,6-Houston,HIP,2
+2015,Gregg,4-Tyler,HOPES,143
+2015,Hardin,5-Beaumont,HIP,2
+2015,Harris,6-Houston,HIP,21
+2015,Hidalgo,11-Edinburg,HOPES,168
+2015,Kaufman,3-Arlington,HIP,2
+2015,Lubbock,1-Lubbock,HIP,1
+2015,Montgomery,6-Houston,HIP,1
+2015,Potter,1-Lubbock,HOPES,42
+2015,Randall,1-Lubbock,HOPES,4
+2015,Tarrant,3-Arlington,HIP,2
+2015,Tom Green,9-Midland,HOPES,1
+2015,Travis,7-Austin,HOPES,219
+2015,Waller,6-Houston,HIP,2
+2015,Webb,11-Edinburg,HOPES,135
