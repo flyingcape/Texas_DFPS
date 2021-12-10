@@ -41,15 +41,34 @@ shinyServer(function(input, output) {
             xlab("") +
             theme(plot.background = element_rect(fill = "light blue"))
     )
+    
+    output$plot9 <-renderPlot(
+        
+        Homes %>% group_by(Year, Type) %>% summarise(Total = sum(Count)) %>% 
+            ggplot(aes(x =  Year, y = Total, fill = Type)) + 
+            geom_bar(stat = 'identity') + 
+            ggtitle("") +
+            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) + 
+            theme(plot.title = element_text(hjust = 0.5)) +
+            theme(axis.text.x = element_text(color="black", size=12, angle=30)) + 
+            theme(axis.text.y = element_text(color="black", size=14, angle=0)) + 
+            theme(axis.title = element_text(size = 16)) +
+            theme(legend.text = element_text(size = 14)) +
+            theme(legend.title = element_text(size = 14))  +
+            theme(plot.title = element_text(size = 14)) 
+    )
+    
     output$plot3 <-renderPlot(
         
-        plot_usmap(data = map_data_year, values = "DFPS_children_Total_County", include = c("TX"), color = "black") + 
-            scale_fill_steps(name = "Total", n.breaks = 8, low = "grey", high = "navy", na.value = "white") +
-            labs(x = NULL, 
-                 y = NULL, 
-                 caption = "Data Source: data.texas.gov") + 
-            theme(legend.position="right", 
-                  plot.caption = element_text(color = "black", size = 12))
+        Removals %>% group_by(Year,Removal.Stage) %>% summarise(Total = sum(Removals)) %>% ggplot(aes(x =  Year, y = Total, fill = Removal.Stage)) + geom_bar(stat = 'identity') + theme(axis.text.x = element_text(color="black", size=12, angle=45)) + 
+            theme(axis.text.y = element_text(color="black", size=12, angle=0)) + 
+            theme(axis.title = element_text(size = 16)) +
+            theme(legend.text = element_text(size = 14)) +
+            theme(legend.title = element_text(size = 14))  +
+            theme(plot.title = element_text(size = 14)) +
+            ggtitle("") +
+            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) + 
+            guides(fill=guide_legend(title="Removal Stage"))
     )
     
     output$plot4 <-renderPlot(
@@ -60,7 +79,7 @@ shinyServer(function(input, output) {
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
             ggtitle("State of Texas") + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
             theme(legend.position = "right") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
@@ -76,13 +95,13 @@ shinyServer(function(input, output) {
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
             ggtitle(paste(input$YourCounty," County",sep="")) + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
             theme(axis.title.y = element_blank()) + 
             theme(legend.position = "none") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
             xlab("") +
-            theme(plot.background = element_rect(fill = "light blue"))
+            theme(plot.background = element_rect(fill = "#dbc9c3"))
     )
     
     output$plot6 <-renderPlot(
@@ -92,7 +111,7 @@ shinyServer(function(input, output) {
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
             ggtitle("State of Texas") + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
             theme(legend.position = "right") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
@@ -108,13 +127,13 @@ shinyServer(function(input, output) {
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
             ggtitle(paste(input$YourCounty," County",sep="")) + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
             theme(axis.title.y = element_blank()) + 
             theme(legend.position = "none") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
             xlab("") +
-            theme(plot.background = element_rect(fill = "light blue"))
+            theme(plot.background = element_rect(fill = "#dbc9c3"))
     )
 
     output$plot8a <-renderPlot(
@@ -123,13 +142,13 @@ shinyServer(function(input, output) {
             geom_tile(
                 data = leg_data,
                 mapping = aes(
-                    x = var1,
-                    y = var2,
+                    x = x,
+                    y = y,
                     fill = fill)
             ) +
             scale_fill_identity() +
             ylab("More Homes ->") +
-            xlab(expression(atop("More Children Waiting", paste("for adoption ->")))) +
+            xlab("More Removals  ->") +
             theme(axis.ticks.y = element_blank(),
                   axis.ticks.x = element_blank(),
                   axis.text.x = element_blank(), axis.text.y=element_blank(), 

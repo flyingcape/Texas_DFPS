@@ -13,32 +13,26 @@ shinyUI(fluidPage(
         mainPanel(
         # -----------------------------------
         tabsetPanel(
-            tabPanel("Children in DFPS Custody", 
-                     h2("Texas Children in DFPS Custody"),
-                     h3("Number of Children by County"),
+            tabPanel("A Shortage of Homes", 
+                     h2("There is a Shortage of Foster/Adoptive Homes"),
+                     h5("In Texas, the number of foster/adoptive homes has decreased over the years. "),
+                     plotOutput("plot9"),
+                     h2("Children Removed from their Homes"),
+                     h5("A removal occurs when CPS determines that a child cannot safely remain in their own home and that DFPS needs to seek legal custody to ensure child safety. Removals can occur during an Investigation or Family Preservation."),
                      plotOutput("plot3"),
-                     h5("Children in DFPS custody are those for whom a court has appointed DFPS legal responsibility through temporary or permanent managing conservatorship or other court ordered legal basis. The following data include any child in DFPS custody at some point during the year."),
-                     h5("In 2020, there were a total of 47,913 Texas Children in DFPS custody."),
-                     h3(""),
-                     h5("Use the pull-down menu to see Your County."),
-                     h3("Distribution by Age"),
-                     textOutput("selected_var"),
-                     h3(""),
-                     fluidRow(
-                         splitLayout(cellWidths = c("50%", "50%"), plotOutput("plot1"), plotOutput("plot2"))
-                     )
+                     h5("The goal of this project is to apply a geo-spatial approach to examining the Homes and Removals data. "),
+                     h3("")
                      
                      ),
             
-            tabPanel("Foster/Adoptive Homes", 
-                     h3("Number of Homes vs. Number of Children Waiting to be Adopted"),
+            tabPanel("Geospatial Approach", 
+                     h3("Number of Homes vs. Number of Children Removed from their Homes"),
                      fluidRow(
                          splitLayout(cellWidths = c("70%", "30%"), plotOutput("plot8"), plotOutput("plot8a"))
                      ),
-                     h5("The aim of the geo-spatial map is to guide foster care capacity investments and strategies, i.e. identify where there is need."),
-                     h5("Take-away: In 2020, Bexar County stands out for a high adoption demand and a low foster care capacity. This county is a good candidate to increase target foster care recruitment and implement new strategies."),
+                     h5("The aim of the geo-spatial map is to guide foster family recruitement and investments, i.e. identify where there is need."),
                      h3(""),
-                     h5("Use the pull-down menu to see how Your County compares? "),
+                     h5("Use the pull-down menu to see Your County."),
                      h3("Foster/Adoptive Homes"),
                      textOutput("selected_var2"),
                      h3(""),

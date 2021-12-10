@@ -8,7 +8,7 @@ library(stringr)
 Children_DFPS <-read.csv("CData/Children_DFPS.csv")
 Adopt_Need <-read.csv("CData/Adopt_Need.csv")
 Homes <-read.csv("CData/Homes.csv")
-PEI_Families_Served <-read.csv("CData/PEI_Families_Served.csv")
+Removals <-read.csv("CData/Removals.csv")
 map_data <- read.csv("CData/map_data_cont.csv")
 
 # changing order of factors for plotting
@@ -30,76 +30,112 @@ Adopt_Need$`Placement Intention` = as.factor(Adopt_Need$`Placement Intention`)
 Adopt_Need$`Placement Intention` <- factor(Adopt_Need$`Placement Intention`, levels = c("Permanent", "Not Permanent"))
 
 map_data_year <- filter(map_data, Year == "2020")
-
 data <- map_data_year
-var1 = data$Adopt_Need_Total_County
-var2 = data$Homes_Total_County
 
-data$Adopt_Need_Total_County[is.na(data$Adopt_Need_Total_County)] <- 0
-data$Homes_Total_County[is.na(data$Homes_Total_County)] <- 0
-var1[is.na(var1)] <- 0
-var2[is.na(var2)] <- 0
+color_map = c("#3b4994","#8c62aa","#be64ac",
+              "#5698b9","#a5add3","#dfb0d6",
+              "#5ac8c8","#ace4e4","#e8e8e8")
 
-# create 3 buckets for texas_homes
-quantiles_var1 <- quantile(var1, 
-                           probs = c(0,0.9632,0.9914,1), na.rm = TRUE)
-# create 3 buckets for adoption need
-quantiles_var2 <- quantile(var2, 
-                           probs = c(0,0.90,0.9933,1), na.rm = TRUE)
+x_text = "More Removals ->"
+y_text = "More Homes ->"
+
+# x data 
+data$Removals_Total_County_per1K = (data$Removals_Total_County/data$Child_Population)*1000
+data$Removals_Total_County_per1K[is.na(data$Removals_Total_County_per1K)] <- 0
+ex4 <- filter(data, Removals_Total_County_per1K != 0)
+x = data$Removals_Total_County_per1K
+
+# y data
+data$Homes_Total_County_per1K = (data$Homes_Total_County/data$Total_Population)*100000
+data$Homes_Total_County_per1K[is.na(data$Homes_Total_County_per1K)] <- 0
+ex2 <- filter(data, Homes_Total_County_per1K != 0)
+y = data$Homes_Total_County_per1K
+
+x_brk_points = c(quantile(ex4$Removals_Total_County_per1K, 0.30),
+                 quantile(ex4$Removals_Total_County_per1K, 0.60))
+y_brk_points = c(quantile(ex2$Homes_Total_County_per1K, 0.30),
+                 quantile(ex2$Homes_Total_County_per1K, 0.60))
+
+# ---------------------------
+quantiles_x <- quantile(x, 
+                        probs = c(0,ecdf(x)(x_brk_points[1]),
+                                  ecdf(x)(x_brk_points[2]),1), na.rm = TRUE)
+# create 3 buckets for variable 2
+quantiles_y <- quantile(y, 
+                        probs = c(0,ecdf(y)(y_brk_points[1]),
+                                  ecdf(y)(y_brk_points[2]),1), na.rm = TRUE)
 
 # create color scale that encodes two variables
-# red for homes and blue for adopt_need 
-# the special notation with gather is due to readibility reasons
 bivariate_color_scale <- tibble(
-  "3 - 3" = "#3F2949", # high inequality, high income
-  "2 - 3" = "#435786",
-  "1 - 3" = "#4885C1", # low inequality, high income
-  "3 - 2" = "#77324C",
-  "2 - 2" = "#806A8A", # medium inequality, medium income
-  "1 - 2" = "#89A1C8",
-  "3 - 1" = "#AE3A4E", # high inequality, low income
-  "2 - 1" = "#BC7C8F",
-  "1 - 1" = "#CABED0" # low inequality, low income
+  "3 - 3" = color_map[1], # high X, high Y
+  "2 - 3" = color_map[2],
+  "1 - 3" = color_map[3], # low X, high Y
+  "3 - 2" = color_map[4],
+  "2 - 2" = color_map[5], # medium X, medium Y
+  "1 - 2" = color_map[6],
+  "3 - 1" = color_map[7], # high X, low Y
+  "2 - 1" = color_map[8],
+  "1 - 1" = color_map[9] # low X, low Y
 ) %>%
   gather("group", "fill")
 
 # cut into groups defined above and join fill
 bar <- data %>%
   mutate(
-    var1_quantiles = cut(
-      var1,
-      breaks = quantiles_var1,
+    x_quantiles = cut(
+      x,
+      breaks = quantiles_x,
       include.lowest = TRUE
     ),
-    var2_quantiles = cut(
-      var2,
-      breaks = quantiles_var2,
+    y_quantiles = cut(
+      y,
+      breaks = quantiles_y,
       include.lowest = TRUE
     ),
     # by pasting the factors together as numbers we match the groups defined
     # in the tibble bivariate_color_scale
     group = paste(
-      as.numeric(var1_quantiles), "-",
-      as.numeric(var2_quantiles)
+      as.numeric(x_quantiles), "-",
+      as.numeric(y_quantiles)
     )
   ) %>%
   # we now join the actual hex values per "group"
-  # so each municipality knows its hex value based on the his gini and avg
-  # income value
+  # so each county knows its hex value based on x and y
   left_join(bivariate_color_scale, by = "group")
 
-foo <- bar %>% select(fips,fill)
+foo = bar %>% select(fips,fill)
+colours = color_map
 
-# the special notation with gather is due to readibility reasons
-colours = c("#3F2949","#435786","#4885C1","#77324C","#806A8A","#89A1C8","#AE3A4E","#BC7C8F","#CABED0")
-
-group = c("3 - 3", "2 - 3", "1 - 3", "3 - 2", "2 - 2", "1 - 2", "3 - 1","2 - 1", "1 - 1")
-fill = c("#3F2949","#435786","#4885C1","#77324C","#806A8A","#89A1C8","#AE3A4E","#BC7C8F","#CABED0")
-
+# CREATE THE LEGEND
+group = c("3 - 3", "2 - 3", "1 - 3", 
+          "3 - 2", "2 - 2", "1 - 2", 
+          "3 - 1","2 - 1", "1 - 1")
+fill = color_map
 leg_data <- data.frame(group, fill)
 
+# Create the legend
 # separate the groups
 leg_data %<>%
-  separate(group, into = c("var1", "var2"), sep = " - ") %>%
-  mutate(var1 = as.integer(var1),
-         var2 = as.integer(var2))
+  separate(group, into = c("x", "y"), sep = " - ") %>%
+  mutate(x = as.integer(x),
+         y = as.integer(y))
+
+legend <- ggplot() +
+  geom_tile(
+    data = leg_data,
+    mapping = aes(
+      x = x,
+      y = y,
+      fill = color_map)
+  ) +
+  scale_fill_identity() +
+  ylab(y_text) +
+  xlab(x_text) +
+  theme(axis.ticks.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(), axis.text.y=element_blank(), 
+        axis.title = element_text(size = 6)) + 
+  # theme(axis.text.x = element_text(color="black", size=12, angle=0)) +
+  # quadratic tiles
+  coord_fixed() + 
+  theme(plot.background = element_rect(color = "#6d9eeb", fill = "#6d9eeb"))
