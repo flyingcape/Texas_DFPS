@@ -1,0 +1,255 @@
+County,Econ_Region
+Atascosa,Alamo
+Bandera,Alamo
+Bexar,Alamo
+Calhoun,Alamo
+Comal,Alamo
+DeWitt,Alamo
+Frio,Alamo
+Gillespie,Alamo
+Goliad,Alamo
+Gonzales,Alamo
+Guadalupe,Alamo
+Jackson,Alamo
+Karnes,Alamo
+Kendall,Alamo
+Kerr,Alamo
+Lavaca,Alamo
+Medina,Alamo
+Victoria,Alamo
+Wilson,Alamo
+Bastrop,Capital
+Blanco,Capital
+Burnet,Capital
+Caldwell,Capital
+Fayette,Capital
+Hays,Capital
+Lee,Capital
+Llano,Capital
+Travis,Capital
+Williamson,Capital
+Bell,Central
+Bosque,Central
+Brazos,Central
+Burleson,Central
+Coryell,Central
+Falls,Central
+Freestone,Central
+Grimes,Central
+Hamilton,Central
+Hill,Central
+Lampasas,Central
+Leon,Central
+Limestone,Central
+Madison,Central
+McLennan,Central
+Milam,Central
+Mills,Central
+Robertson,Central
+San Saba,Central
+Washington,Central
+Austin,Gulf Coast
+Brazoria,Gulf Coast
+Chambers,Gulf Coast
+Colorado,Gulf Coast
+Fort Bend,Gulf Coast
+Galveston,Gulf Coast
+Harris,Gulf Coast
+Liberty,Gulf Coast
+Matagorda,Gulf Coast
+Montgomery,Gulf Coast
+Walker,Gulf Coast
+Waller,Gulf Coast
+Wharton,Gulf Coast
+Armstrong,High Plains
+Bailey,High Plains
+Briscoe,High Plains
+Carson,High Plains
+Castro,High Plains
+Childress,High Plains
+Cochran,High Plains
+Collingsworth,High Plains
+Crosby,High Plains
+Dallam,High Plains
+Deaf Smith,High Plains
+Dickens,High Plains
+Donley,High Plains
+Floyd,High Plains
+Garza,High Plains
+Gray,High Plains
+Hale,High Plains
+Hall,High Plains
+Hansford,High Plains
+Hartley,High Plains
+Hemphill,High Plains
+Hockley,High Plains
+Hutchinson,High Plains
+King,High Plains
+Lamb,High Plains
+Lipscomb,High Plains
+Lubbock,High Plains
+Lynn,High Plains
+Moore,High Plains
+Motley,High Plains
+Ochiltree,High Plains
+Oldham,High Plains
+Parmer,High Plains
+Potter,High Plains
+Randall,High Plains
+Roberts,High Plains
+Sherman,High Plains
+Swisher,High Plains
+Terry,High Plains
+Wheeler,High Plains
+Yoakum,High Plains
+Collin,Metroplex
+Cooke,Metroplex
+Dallas,Metroplex
+Denton,Metroplex
+Ellis,Metroplex
+Erath,Metroplex
+Fannin,Metroplex
+Grayson,Metroplex
+Hood,Metroplex
+Hunt,Metroplex
+Johnson,Metroplex
+Kaufman,Metroplex
+Navarro,Metroplex
+Palo Pinto,Metroplex
+Parker,Metroplex
+Rockwall,Metroplex
+Somervell,Metroplex
+Tarrant,Metroplex
+Wise,Metroplex
+Archer,Northwest
+Baylor,Northwest
+Brown,Northwest
+Callahan,Northwest
+Clay,Northwest
+Coleman,Northwest
+Comanche,Northwest
+Cottle,Northwest
+Eastland,Northwest
+Fisher,Northwest
+Foard,Northwest
+Hardeman,Northwest
+Haskell,Northwest
+Jack,Northwest
+Jones,Northwest
+Kent,Northwest
+Knox,Northwest
+Mitchell,Northwest
+Montague,Northwest
+Nolan,Northwest
+Runnels,Northwest
+Scurry,Northwest
+Shackelford,Northwest
+Stephens,Northwest
+Stonewall,Northwest
+Taylor,Northwest
+Throckmorton,Northwest
+Wichita,Northwest
+Wilbarger,Northwest
+Young,Northwest
+Angelina,Southeast
+Hardin,Southeast
+Houston,Southeast
+Jasper,Southeast
+Jefferson,Southeast
+Nacogdoches,Southeast
+Newton,Southeast
+Orange,Southeast
+Polk,Southeast
+Sabine,Southeast
+San Augustine,Southeast
+San Jacinto,Southeast
+Shelby,Southeast
+Trinity,Southeast
+Tyler,Southeast
+Aransas,South
+Bee,South
+Brooks,South
+Cameron,South
+Dimmit,South
+Duval,South
+Edwards,South
+Hidalgo,South
+Jim Hogg,South
+Jim Wells,South
+Kenedy,South
+Kinney,South
+Kleberg,South
+La Salle,South
+Live Oak,South
+Maverick,South
+McMullen,South
+Nueces,South
+Real,South
+Refugio,South
+San Patricio,South
+Starr,South
+Uvalde,South
+Val Verde,South
+Webb,South
+Willacy,South
+Zapata,South
+Zavala,South
+Anderson,Upper East
+Bowie,Upper East
+Camp,Upper East
+Cass,Upper East
+Cherokee,Upper East
+Delta,Upper East
+Franklin,Upper East
+Gregg,Upper East
+Harrison,Upper East
+Henderson,Upper East
+Hopkins,Upper East
+Lamar,Upper East
+Marion,Upper East
+Morris,Upper East
+Panola,Upper East
+Rains,Upper East
+Red River,Upper East
+Rusk,Upper East
+Smith,Upper East
+Titus,Upper East
+Upshur,Upper East
+Van Zandt,Upper East
+Wood,Upper East
+Brewster,Upper Rio Grande
+Culberson,Upper Rio Grande
+El Paso,Upper Rio Grande
+Hudspeth,Upper Rio Grande
+Jeff Davis,Upper Rio Grande
+Presidio,Upper Rio Grande
+Andrews,West
+Borden,West
+Coke,West
+Concho,West
+Crane,West
+Crockett,West
+Dawson,West
+Ector,West
+Gaines,West
+Glasscock,West
+Howard,West
+Irion,West
+Kimble,West
+Loving,West
+Martin,West
+Mason,West
+McCulloch,West
+Menard,West
+Midland,West
+Pecos,West
+Reagan,West
+Reeves,West
+Schleicher,West
+Sterling,West
+Sutton,West
+Terrell,West
+Tom Green,West
+Upton,West
+Ward,West
+Winkler,West

@@ -1,48 +1,102 @@
 
 # Define server logic required to create a plot
 shinyServer(function(input, output) {
-    
-    output$selected_var <- renderText({ 
-        paste("For Your County, you selected", input$YourCounty)
+    output$Homes_text0 <- renderText({ 
+        paste(input$YourCounty, " County ( in ", input$TheYear, ")")
+    })   
+    output$Homes_text1 <- renderText({ 
+        paste("The county had ", round(map_data$Homes_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0)," FAD homes.")
+    })    
+    output$Homes_text2 <- renderText({ 
+        paste("For ",round(map_data$Total_Population[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), " residents, this is ", round(map_data$Homes_Total_County_per100K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " homes per 100K residents.")
     })
-    output$selected_var2 <- renderText({ 
-        paste("For Your County, you selected", input$YourCounty)
-    })
     
-    output$plot1 <-renderPlot(
+    output$Homes_plot3 <-renderPlot(
         
-        Children_DFPS %>% filter(Year == "2020") %>% 
-            group_by(Age_Group) %>% summarise(Total = sum(Count)) %>% ggplot(aes(x =  Age_Group, y = Total, fill = Age_Group)) +
+        Homes %>% filter(Year == input$TheYear) %>% 
+            filter(County == input$YourCounty) %>% group_by(Type) %>% summarise(Total = sum(Count)) %>% 
+            ggplot(aes(x =  Type, y = Total, fill = Type)) + 
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
-            ggtitle("State of Texas") + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual("Home Type",values=c("blue", "#028140", "#2e4873")) +
+            ylab("Number\nof FAD\n Homes") + xlab(" ") +
+            theme(axis.title.y = element_text(angle = 0, vjust = 0.5)) + 
             theme(legend.position = "right") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
-            xlab("") +
-            labs(fill = "Age Groups") +
-            theme(plot.background = element_rect(fill = "gray")) 
+            theme(plot.background = element_rect(fill = "gray")) + 
+            ggtitle(" ") 
     )
     
-    output$plot2 <-renderPlot(
+    output$Homes_text3 <- renderText({ 
+        paste("In ", input$TheYear,", ",input$YourCounty, " County had", round(map_data$Homes_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), "FAD homes.")
+    }) 
+
+    output$Homes_text4 <- renderText({ 
+        paste("That is ", round(map_data$Homes_Total_County_per100K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " homes per 100K residents.")
+    }) 
+
+    output$County_text0 <- renderText({ 
+        paste(input$YourCounty, " County")
+    }) 
+        
+    output$Removals_text1 <- renderText({ 
+        paste("The county had ", round(map_data$Removals_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0)," removals.")
+    })    
+    output$Removals_text2 <- renderText({ 
+        paste("For ", round(map_data$Child_Population[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), " children residents, this is ", round(map_data$Removals_Total_County_per1K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " removals per 1K children.")
+    })
     
-        Children_DFPS %>% filter(Year == "2020") %>% 
-            filter(County == input$YourCounty) %>% group_by(Year, Age_Group) %>% summarise(Total = sum(Count)) %>% 
-            ggplot(aes(x =  Age_Group, y = Total, fill = Age_Group)) + 
+    output$Removals_Plot2 <-renderPlot(
+        
+        Removals %>% filter(Year == input$TheYear) %>% 
+            filter(County == input$YourCounty) %>% group_by(`Removal.Stage`) %>% summarise(Total = sum(Removals)) %>% 
+            ggplot(aes(x =  `Removal.Stage`, y = Total, fill = `Removal.Stage`)) + 
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
-            ggtitle(paste(input$YourCounty," County",sep="")) + 
-            scale_fill_manual(values=c("#53b69c", "#238e9c", "#2e4873")) +
+            scale_fill_manual("Removal Stage", values=c("blue", "#028140", "#2e4873")) +
             theme(axis.title.y = element_blank()) + 
-            theme(legend.position = "none") + 
+            theme(legend.position = "right") + 
             theme(axis.ticks.x = element_blank(), 
                   axis.text.x = element_blank()) +
-            xlab("") +
-            theme(plot.background = element_rect(fill = "light blue"))
+            ylab("Number of\n Removals") + xlab(" ") +
+            theme(axis.title.y = element_text(angle = 0, vjust = 0.5)) + 
+            theme(plot.background = element_rect(fill = "gray")) + 
+            ggtitle(" ") 
     )
     
-    output$plot9 <-renderPlot(
+    output$Removals_text3 <- renderText({ 
+        paste("In ", input$TheYear,", ",input$YourCounty, " County had", round(map_data$Removals_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), " children removed.")
+    }) 
+    
+    output$Removals_text4 <- renderText({ 
+        paste("That is ", round(map_data$Removals_Total_County_per1K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " removals per 1K children.")
+    }) 
+    
+    output$Adopt_text1 <- renderText({ 
+        paste("The county had ", round(map_data$Adopt_Need_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0)," children awaiting adoption.")
+    })    
+
+    output$AdoptNeed_Plot1 <-renderPlot(
+        
+        Adopt_Need %>% filter(Year == input$TheYear) %>% 
+            filter(County == input$YourCounty) %>% group_by(`Placement.Intention`) %>% summarise(Total = sum(Count)) %>% 
+            ggplot(aes(x =  `Placement.Intention`, y = Total, fill = `Placement.Intention`)) + 
+            geom_bar(stat = 'identity') + 
+            theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
+            scale_fill_manual("Placement\n Intention", values=c("blue", "#028140", "#2e4873")) +
+            theme(axis.title.y = element_blank()) + 
+            theme(legend.position = "right") + 
+            theme(axis.ticks.x = element_blank(), 
+                  axis.text.x = element_blank()) +
+            ylab("Number of\n Children\n Awaiting\n Adoption") + xlab(" ") +
+            theme(axis.title.y = element_text(angle = 0, vjust = 0.5)) + 
+            theme(plot.background = element_rect(fill = "gray")) +
+            ggtitle(" ") 
+    )
+    
+    # Homes across the years (state-wide data)
+    output$Homes_plot1 <-renderPlot(
         
         Homes %>% group_by(Year, Type) %>% summarise(Total = sum(Count)) %>% 
             ggplot(aes(x =  Year, y = Total, fill = Type)) + 
@@ -55,58 +109,64 @@ shinyServer(function(input, output) {
             theme(axis.title = element_text(size = 16)) +
             theme(legend.text = element_text(size = 14)) +
             theme(legend.title = element_text(size = 14))  +
-            theme(plot.title = element_text(size = 14)) 
+            theme(plot.title = element_text(size = 14)) + 
+            scale_fill_manual(values = c("red", "green", "blue"))
     )
     
-    output$plot3 <-renderPlot(
+    # Removals across the years (state-wide data)
+    output$Removals_Plot1 <-renderPlot(
         
-        Removals %>% group_by(Year,Removal.Stage) %>% summarise(Total = sum(Removals)) %>% ggplot(aes(x =  Year, y = Total, fill = Removal.Stage)) + geom_bar(stat = 'identity') + theme(axis.text.x = element_text(color="black", size=12, angle=45)) + 
+        Removals %>% group_by(Year, Removal.Stage) %>% summarise(Total = sum(Removals)) %>% ggplot(aes(x =  Year, y = Total, fill = Removal.Stage)) + 
+            geom_bar(stat = 'identity') + 
+            theme(axis.text.x = element_text(color="black", size=12, angle=45)) + 
             theme(axis.text.y = element_text(color="black", size=12, angle=0)) + 
             theme(axis.title = element_text(size = 16)) +
             theme(legend.text = element_text(size = 14)) +
             theme(legend.title = element_text(size = 14))  +
             theme(plot.title = element_text(size = 14)) +
             ggtitle("") +
-            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) + 
-            guides(fill=guide_legend(title="Removal Stage"))
+            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
+            scale_fill_manual(values = c("orange","purple"))
     )
+
+    output$map1 <-renderPlot({
+        create_homes_plot_simple(map_data, input$TheYear)
+    })
+    output$map1_again <-renderPlot({
+        create_homes_plot_simple(map_data, input$TheYear)
+    })
     
-    output$plot4 <-renderPlot(
-        
-        Adopt_Need %>% filter(Year == "2020") %>% 
-            group_by(`Placement Intention`) %>% summarise(Total = sum(Count)) %>% 
-            ggplot(aes(x =  `Placement Intention`, y = Total, fill = `Placement Intention`)) +
-            geom_bar(stat = 'identity') + 
-            theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
-            ggtitle("State of Texas") + 
-            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
-            theme(legend.position = "right") + 
-            theme(axis.ticks.x = element_blank(), 
-                  axis.text.x = element_blank()) +
-            xlab("") +
-            theme(plot.background = element_rect(fill = "gray")) 
-    )
+    output$map2 <-renderPlot({
+        create_removals_plot_simple(map_data, input$TheYear)
+    })
+
+    output$map2_again <-renderPlot({
+        create_removals_plot_simple(map_data, input$TheYear)
+    })
     
-    output$plot5 <-renderPlot(
-        
-        Adopt_Need %>% filter(Year == "2020") %>% 
-            filter(County == input$YourCounty) %>% group_by(`Placement Intention`) %>% summarise(Total = sum(Count)) %>% 
-            ggplot(aes(x =  `Placement Intention`, y = Total, fill = `Placement Intention`)) + 
-            geom_bar(stat = 'identity') + 
-            theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
-            ggtitle(paste(input$YourCounty," County",sep="")) + 
-            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
-            theme(axis.title.y = element_blank()) + 
-            theme(legend.position = "none") + 
-            theme(axis.ticks.x = element_blank(), 
-                  axis.text.x = element_blank()) +
-            xlab("") +
-            theme(plot.background = element_rect(fill = "#dbc9c3"))
-    )
+    output$map3 <-renderPlot({
+        create_homes_removals_plot(map_data, input$TheYear)
+    })
     
-    output$plot6 <-renderPlot(
+    output$map3_again <-renderPlot({
+        create_homes_removals_plot(map_data, input$TheYear)
+    })
+    
+    output$map_tiny1 <-renderPlot({
+        create_homes_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+    })
+    
+    output$map_tiny2 <-renderPlot({
+        create_removals_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+    })    
+    
+    output$map_tiny3 <-renderPlot({
+        create_bivariate_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+    })  
+    
+    output$Homes_plot2 <-renderPlot(
         
-        Homes %>% filter(Year == "2020") %>% 
+        Homes %>% filter(Year == input$TheYear) %>% 
             group_by(Type) %>% summarise(Total = sum(Count)) %>% ggplot(aes(x =  Type, y = Total, fill = Type)) +
             geom_bar(stat = 'identity') + 
             theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
@@ -119,59 +179,8 @@ shinyServer(function(input, output) {
             theme(plot.background = element_rect(fill = "gray")) 
     )
     
-    output$plot7 <-renderPlot(
-        
-        Homes %>% filter(Year == "2020") %>% 
-            filter(County == input$YourCounty) %>% group_by(Type) %>% summarise(Total = sum(Count)) %>% 
-            ggplot(aes(x =  Type, y = Total, fill = Type)) + 
-            geom_bar(stat = 'identity') + 
-            theme(axis.text.x = element_text(color="black", size=9, angle=0)) + 
-            ggtitle(paste(input$YourCounty," County",sep="")) + 
-            scale_fill_manual(values=c("blue", "#028140", "#2e4873")) +
-            theme(axis.title.y = element_blank()) + 
-            theme(legend.position = "none") + 
-            theme(axis.ticks.x = element_blank(), 
-                  axis.text.x = element_blank()) +
-            xlab("") +
-            theme(plot.background = element_rect(fill = "#dbc9c3"))
-    )
-
-    output$plot8a <-renderPlot(
-        
-        ggplot() +
-            geom_tile(
-                data = leg_data,
-                mapping = aes(
-                    x = x,
-                    y = y,
-                    fill = fill)
-            ) +
-            scale_fill_identity() +
-            ylab("More Homes ->") +
-            xlab("More Removals  ->") +
-            theme(axis.ticks.y = element_blank(),
-                  axis.ticks.x = element_blank(),
-                  axis.text.x = element_blank(), axis.text.y=element_blank(), 
-                  axis.title = element_text(size = 12)) + 
-            coord_fixed() 
-    )       
+    output$Bivariate_text3 <- renderText({ 
+        extract_priority_list(map_data, input$TheYear)
+    })  
     
-    output$plot8 <-renderPlot(
-        
-        plot_usmap(data = foo, values = "fill", include = c("TX"), color = "black", ) + 
-            labs(x = NULL, 
-                 y = NULL, 
-                 title = "By Texas County", 
-                 caption = "Data Source: data.texas.gov") +
-            theme(legend.position="right", 
-                  plot.title = element_text(color = "black", size = 14),
-                  plot.caption = element_text(color = "black", size = 12)) +
-            scale_fill_manual(
-                values = colours,
-                breaks = colours,
-                name = "Foobar",
-                drop = FALSE, na.value = "white") + theme(legend.position = "none") 
-    )    
-    
-        
 })
