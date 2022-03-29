@@ -29,17 +29,13 @@ shinyServer(function(input, output) {
     )
     
     output$Homes_text3 <- renderText({ 
-        paste("In ", input$TheYear,", ",input$YourCounty, " County had", round(map_data$Homes_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), "FAD homes.")
+        paste("In ", input$CountyYear,", ",input$YourCounty, " County had", round(map_data$Homes_Total_County[map_data$Year == input$CountyYear & map_data$County == input$YourCounty][1],0), "FAD homes.")
     }) 
 
     output$Homes_text4 <- renderText({ 
-        paste("That is ", round(map_data$Homes_Total_County_per100K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " homes per 100K residents.")
+        paste("That is ", round(map_data$Homes_Total_County_per100K[map_data$Year == input$CountyYear & map_data$County == input$YourCounty][1],1), " homes per 100K residents.")
     }) 
 
-    output$County_text0 <- renderText({ 
-        paste(input$YourCounty, " County")
-    }) 
-        
     output$Removals_text1 <- renderText({ 
         paste("The county had ", round(map_data$Removals_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0)," removals.")
     })    
@@ -66,11 +62,11 @@ shinyServer(function(input, output) {
     )
     
     output$Removals_text3 <- renderText({ 
-        paste("In ", input$TheYear,", ",input$YourCounty, " County had", round(map_data$Removals_Total_County[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],0), " children removed.")
+        paste("In ", input$CountyYear,", ",input$YourCounty, " County had", round(map_data$Removals_Total_County[map_data$Year == input$CountyYear & map_data$County == input$YourCounty][1],0), " children removed.")
     }) 
     
     output$Removals_text4 <- renderText({ 
-        paste("That is ", round(map_data$Removals_Total_County_per1K[map_data$Year == input$TheYear & map_data$County == input$YourCounty][1],1), " removals per 1K children.")
+        paste("That is ", round(map_data$Removals_Total_County_per1K[map_data$Year == input$CountyYear & map_data$County == input$YourCounty][1],1), " removals per 1K children.")
     }) 
     
     output$Adopt_text1 <- renderText({ 
@@ -102,7 +98,7 @@ shinyServer(function(input, output) {
             ggplot(aes(x =  Year, y = Total, fill = Type)) + 
             geom_bar(stat = 'identity') + 
             ggtitle("") +
-            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) + 
+            scale_x_continuous(name="Year", limits=c(2010.5, 2021.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)) + 
             theme(plot.title = element_text(hjust = 0.5)) +
             theme(axis.text.x = element_text(color="black", size=12, angle=30)) + 
             theme(axis.text.y = element_text(color="black", size=14, angle=0)) + 
@@ -110,7 +106,7 @@ shinyServer(function(input, output) {
             theme(legend.text = element_text(size = 14)) +
             theme(legend.title = element_text(size = 14))  +
             theme(plot.title = element_text(size = 14)) + 
-            scale_fill_manual(values = c("red", "green", "blue"))
+            scale_fill_manual(name = "Home Type", values = c("#6091c2", "#21c5aa", "#000000"))
     )
     
     # Removals across the years (state-wide data)
@@ -125,15 +121,15 @@ shinyServer(function(input, output) {
             theme(legend.title = element_text(size = 14))  +
             theme(plot.title = element_text(size = 14)) +
             ggtitle("") +
-            scale_x_continuous(name="Year", limits=c(2010.5, 2020.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)) +
-            scale_fill_manual(values = c("orange","purple"))
+            scale_x_continuous(name="Year", limits=c(2010.5, 2021.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)) +
+            scale_fill_manual(name = "Removal Stage",values = c("#058abd","#1c3152"))
     )
 
     output$map1 <-renderPlot({
         create_homes_plot_simple(map_data, input$TheYear)
     })
     output$map1_again <-renderPlot({
-        create_homes_plot_simple(map_data, input$TheYear)
+        create_homes_plot_simple(map_data, input$CountyYear)
     })
     
     output$map2 <-renderPlot({
@@ -141,7 +137,7 @@ shinyServer(function(input, output) {
     })
 
     output$map2_again <-renderPlot({
-        create_removals_plot_simple(map_data, input$TheYear)
+        create_removals_plot_simple(map_data, input$CountyYear)
     })
     
     output$map3 <-renderPlot({
@@ -149,19 +145,19 @@ shinyServer(function(input, output) {
     })
     
     output$map3_again <-renderPlot({
-        create_homes_removals_plot(map_data, input$TheYear)
+        create_homes_removals_plot(map_data, input$CountyYear)
     })
     
     output$map_tiny1 <-renderPlot({
-        create_homes_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+        create_homes_plot_yourcounty(map_data, input$CountyYear, input$YourCounty)
     })
     
     output$map_tiny2 <-renderPlot({
-        create_removals_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+        create_removals_plot_yourcounty(map_data, input$CountyYear, input$YourCounty)
     })    
     
     output$map_tiny3 <-renderPlot({
-        create_bivariate_plot_yourcounty(map_data, input$TheYear, input$YourCounty)
+        create_bivariate_plot_yourcounty(map_data, input$CountyYear, input$YourCounty)
     })  
     
     output$Homes_plot2 <-renderPlot(

@@ -5,9 +5,9 @@ account: flyingcape
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5264703
-bundleId: 5356871
+bundleId: 5714928
 url: https://flyingcape.shinyapps.io/ShinyApp/
-when: 1639164260.52609
-lastSyncTime: 1639164260.5261
+when: 1647983977.3311
+lastSyncTime: 1647983977.33112
 asMultiple: FALSE
 asStatic: FALSE

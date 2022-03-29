@@ -24,7 +24,7 @@ bootstrapPage(theme = shinytheme("flatly"),
                     h5("A child is removed from their home when CPS determines that the child cannot safely remain in their home. The number of children removed is ~18K per year."),
                     plotOutput("Removals_Plot1", height="325px", width="100%"),
                     h3("OUR CHALLENGE"),
-                    h5("The Texas foster care system is experiencing a state-wide shortage of available foster and adoptive (FAD) homes."),
+                    h5("The Texas foster care system is experiencing a state-wide shortage of available foster/adoptive/foster-adoptive (FAD) homes."),
                     h5("The total number of homes have steadily decreased since 2011."),
                     plotOutput("Homes_plot1", height="325px", width="100%"),
                     h6("Author: Mandy McClintock | R Data Analysis Project  |  NYC Data Science Academy")
@@ -38,10 +38,7 @@ bootstrapPage(theme = shinytheme("flatly"),
               sidebarPanel(
                 selectizeInput(inputId = "TheYear",
                                label = "Choose Year",
-                               choices = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020)), # end of selectizeInput
-                selectizeInput(inputId = "YourCounty",
-                               label = "Choose Your County",
-                               choices = sort(TX_counties$CNTY_NM)) 
+                               choices = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020,2021)) # end of selectizeInput
               ), # end of sidebarPanel
 
               mainPanel(
@@ -62,40 +59,10 @@ bootstrapPage(theme = shinytheme("flatly"),
                              h5("The foster/adoptive homes per 100K residents and child removals per 1K children data were overlaid onto a TX county map."),
                              fluidRow(
                                splitLayout(cellWidths = c("70%", "30%"), plotOutput("map3"), 
-                                           img(src='bivariate_leg.png', align = "center", height="160px", width="100%"))
+                                           img(src='bivariate_leg2.png', align = "center", height="160px", width="100%"))
                              ),
                              h3("The highest priority counties include: "),
                              textOutput("Bivariate_text3")
-                             
-                    ),
-                    tabPanel("See Your County",
-                             tags$style("#County_text0 {font-size:25px;
-                                color: black;
-                                display:block; }"),
-                             textOutput("County_text0"),
-                             fluidRow(column(12, align="left",
-                                             textOutput("Homes_text3"),
-                                             textOutput("Homes_text4"))
-                             ),
-                             fluidRow(
-                               splitLayout(cellWidths = c("40%", "60%"), plotOutput("map_tiny1"), 
-                                           plotOutput("map1_again"))),
-                             fluidRow(column(12, align="left",
-                                             textOutput("Removals_text3"),
-                                             textOutput("Removals_text4"))
-                             ),
-                             fluidRow(
-                               splitLayout(cellWidths = c("40%", "60%"), plotOutput("map_tiny2"), 
-                                           plotOutput("map2_again"))),
-                             h2("For the Bivariate Analysis: "),
-                             h4("Homes per 100K Residents vs. Removals per 1K Children"),
-                             fluidRow(
-                               splitLayout(cellWidths = c("65%","35%"),  
-                                           plotOutput("map3_again"),
-                                           img(src='bivariate_leg.png', align = "left", height="180px", width="100%"))
-                               ),
-                             h5("Your county was classified as the following"),
-                             plotOutput("map_tiny3", height="180px", width="50%")
                              
                     )
                   )
@@ -105,18 +72,43 @@ bootstrapPage(theme = shinytheme("flatly"),
 tabPanel("Future Tinkering",
          sidebarLayout(
            sidebarPanel(
+             selectizeInput(inputId = "CountyYear",
+                            label = "Choose Year",
+                            choices = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020,2021)),
+             selectizeInput(inputId = "YourCounty",
+                            label = "Choose Your County",
+                            choices = sort(TX_counties$CNTY_NM)) 
            ), # end of sidebarPanel
            
            mainPanel(
              tabsetPanel(
-               tabPanel("Tab1", 
-
+               tabPanel("Foster/Adoptive Homes",
+                        fluidRow(
+                          splitLayout(cellWidths = c("40%", "60%"), plotOutput("map_tiny1"), 
+                                      plotOutput("map1_again"))),
+                        fluidRow(column(12, align="left",
+                                        textOutput("Homes_text3"),
+                                        textOutput("Homes_text4"))
+                        )
                ), # end of tabPanel
-               tabPanel("Tab2", 
-
+               tabPanel("Child Removals", 
+                        fluidRow(
+                          splitLayout(cellWidths = c("40%", "60%"), plotOutput("map_tiny2"), 
+                                      plotOutput("map2_again"))),
+                        fluidRow(column(12, align="left",
+                                        textOutput("Removals_text3"),
+                                        textOutput("Removals_text4"))
+                        )
                ), # end of tabPanel 
-               tabPanel("Tab3", 
-
+               tabPanel("Homes vs. Removals", 
+                        h4("Homes per 100K Residents vs. Removals per 1K Children"),
+                        fluidRow(
+                          splitLayout(cellWidths = c("65%","35%"),  
+                                      plotOutput("map3_again"),
+                                      img(src='bivariate_leg2.png', align = "left", height="180px", width="100%"))
+                        ),
+                        h5("Your county was classified as the following"),
+                        plotOutput("map_tiny3", height="180px", width="50%")
                )
              )
            ) # end of mainPanel

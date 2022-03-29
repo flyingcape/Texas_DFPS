@@ -24,9 +24,21 @@ texas0 <- texas0 %>% mutate(CNTY_NM = replace(CNTY_NM, CNTY_NM == "De Witt", "De
 
 ```
 
+
+```{r}
+econ_regions <-read.csv("../Data/econ_region_counties.csv")
+
+```
+
+
+
 ```{r}
 # Texas Children (Population)
-Children_TX <- read_csv("../Data/CPI_1.1_Texas_Child_Population__ages_0-17__by_County_2010-2020.csv")
+Children_TX_2011 <- read_csv("../Data/CPI_1.1_Texas_Child_Population__ages_0-17__by_County_2010-2020.csv") %>% filter(Year == "2011") 
+
+Children_TX_new <- read_csv("../Data/CPI_1.1_Texas_Child_Population__ages_0-17__by_County_2012-2021.csv")
+
+Children_TX <- rbind(Children_TX_new,Children_TX_2011)
 
 Children_TX <- Children_TX %>% filter(County != "All Counties")
 
@@ -34,14 +46,17 @@ Children_TX <- Children_TX %>% filter(County != "All Counties")
 Children_TX$Year = as.factor(Children_TX$Year)
 Children_TX = rename(Children_TX, Child_Population = `Child Population`)
 Children_TX = rename(Children_TX, Total_Population = `Total Population`)
-write_csv(Children_TX, "CData/Children_TX.csv")
 
 texas_children <- merge(texas0, Children_TX, by.x = "CNTY_NM", by.y = 'County', all = TRUE) %>% select("lon", "lat", "fips", "CNTY_NM","Region","Child_Population","Total_Population", "Year") %>% rename(County = CNTY_NM)
 ```
 
 ```{r}
 # Homes
-Homes <- read_csv("../Data/CPS_4.2_Adoption_-_DFPS_Foster__Foster_Adoptive__and_Adoptive__FAD__Homes_FY2011_-_2020.csv")
+Homes_2011 <- read_csv("../Data/CPS_4.2_Adoption_-_DFPS_Foster__Foster_Adoptive__and_Adoptive__FAD__Homes_FY2011_-_2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Homes_new <- read_csv("../Data/CPS_4.2_Adoption_-_DFPS_Foster__Foster_Adoptive__and_Adoptive__FAD__Homes_FY2012_-_2021.csv")
+
+Homes <- rbind(Homes_new,Homes_2011)
 
 # Cleaning Raw Data
 Homes = rename(Homes, Year = `Fiscal Year`)
@@ -54,7 +69,6 @@ Homes$Type[which(Homes$Type == "Foster Homes")] <- "Foster"
 # renaming and changing order of factors for plotting
 Homes$Type = as.factor(Homes$Type)
 Homes$Type <- factor(Homes$Type, levels = c("Foster/Adoptive", "Adoptive", "Foster"))
-write_csv(Homes, "CData/Homes.csv")
 
 Homes %>% group_by(Year, Type) %>% summarise(Total = sum(Count)) %>%
   ggplot(aes(x =  Year, y = Total, fill = Type)) + 
@@ -73,12 +87,15 @@ texas_homes = rename(texas_homes, Homes_Total_County = Total_County)
 
 ```{r}
 # Removals
-Removals <- read_csv("../Data/CPS_2.1_Removals_-_by_County_FY2011-2020.csv")
+Removals_2011 <- read_csv("../Data/CPS_2.1_Removals_-_by_County_FY2011-2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Removals_new <- read_csv("../Data/CPS_2.1_Removals_-_by_County_FY2012-2021.csv")
+
+Removals <- rbind(Removals_new,Removals_2011)
 
 # Cleaning Raw Data
 Removals = rename(Removals, Year = `Fiscal Year`)
 Removals$Year = as.factor(Removals$Year)
-write_csv(Removals, "CData/Removals.csv")
 
 Removals %>% group_by(Year,`Removal Stage`) %>% summarise(Total = sum(Removals)) %>%
   ggplot(aes(x =  Year, y = Total, fill = `Removal Stage`)) + 
@@ -94,11 +111,16 @@ texas_Removals <- merge(texas0, Removals_byCounty, by.x = "CNTY_NM", by.y = 'Cou
 texas_Removals = rename(texas_Removals, Removals_Total_County = Total_County)
 
 ```
-
+ 
+ 
 ```{r}
-map_data <- texas_children %>% merge(texas_homes, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+#map_data <- texas_children %>% merge(texas_homes, #by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+#  merge(texas_Removals, by=c("Region","County","Year","fips","lon","lat"), all #= TRUE) 
+
+map_data <- texas_children %>% merge(econ_regions,by=c("County")) %>% 
+  merge(texas_homes, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
   merge(texas_Removals, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) 
-  
+
 # Create new variables
 map_data$Homes_Total_County_per100K = (map_data$Homes_Total_County/map_data$Total_Population)*100000
 map_data$Removals_Total_County_per1K = (map_data$Removals_Total_County/map_data$Child_Population)*1000
@@ -109,10 +131,6 @@ map_data$Removals_Total_County[is.na(map_data$Removals_Total_County)] <- 0
 map_data$Removals_Total_County[is.na(map_data$Removals_Total_County)] <- 0
 map_data$Homes_Total_County_per100K[is.na(map_data$Homes_Total_County_per100K)] <- 0
 map_data$Removals_Total_County_per1K[is.na(map_data$Removals_Total_County_per1K)] <- 0
-
-# Remove these missing rows
-map_data <-map_data[!(is.na(map_data$Year)),] 
-map_data <-map_data[!(map_data$Year == "2010"),] 
 
 write_csv(map_data, "../CData/Shiny_map_data.csv")
 

@@ -14,12 +14,12 @@ library(shinythemes)
 # ------------------------
 # import data
 # ------------------------
-TX_counties <-read.csv("../CData/texas0.csv")
-Children_TX <-read.csv("../CData/Children_TX.csv")
-Adopt_Need <-read.csv("../CData/Adopt_Need.csv")
-Homes <-read.csv("../CData/Homes.csv")
-Removals <-read.csv("../CData/Removals.csv")
-map_data <- read.csv("../CData/Shiny_map_data.csv")
+TX_counties <-read.csv("CData/texas0.csv")
+Children_TX <-read.csv("CData/Children_TX.csv")
+Adopt_Need <-read.csv("CData/Adopt_Need.csv")
+Homes <-read.csv("CData/Homes.csv")
+Removals <-read.csv("CData/Removals.csv")
+map_data <- read.csv("CData/Shiny_map_data.csv")
 
 # ------------------------
 # Functions to create the Figures
@@ -37,8 +37,8 @@ create_homes_removals_plot <- function(map_data, year) {
   
   # -----------------------------------------
   # The breaks:
-  x_brk_points = c(2, 4)   # removals
-  y_brk_points = c(6, 12)  # homes
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
   # -----------------------------------------
   
   # Building the parts of the dataframe we will work with
@@ -382,8 +382,8 @@ create_bivariate_plot_yourcounty <- function(map_data, year, county) {
   
   # -----------------------------------------
   # The breaks:
-  x_brk_points = c(2, 4)   # removals
-  y_brk_points = c(6, 12)  # homes
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
   # -----------------------------------------
   
   # Building the parts of the dataframe we will work with
@@ -473,8 +473,8 @@ extract_priority_list <- function(map_data, year) {
   
   # -----------------------------------------
   # The breaks:
-  x_brk_points = c(2, 4)   # removals
-  y_brk_points = c(6, 12)  # homes
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
   # -----------------------------------------
   
   # Building the parts of the dataframe we will work with

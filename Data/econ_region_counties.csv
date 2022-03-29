@@ -1,255 +1,255 @@
-County,Econ_Region
-Atascosa,Alamo
-Bandera,Alamo
-Bexar,Alamo
-Calhoun,Alamo
-Comal,Alamo
-DeWitt,Alamo
-Frio,Alamo
-Gillespie,Alamo
-Goliad,Alamo
-Gonzales,Alamo
-Guadalupe,Alamo
-Jackson,Alamo
-Karnes,Alamo
-Kendall,Alamo
-Kerr,Alamo
-Lavaca,Alamo
-Medina,Alamo
-Victoria,Alamo
-Wilson,Alamo
-Bastrop,Capital
-Blanco,Capital
-Burnet,Capital
-Caldwell,Capital
-Fayette,Capital
-Hays,Capital
-Lee,Capital
-Llano,Capital
-Travis,Capital
-Williamson,Capital
-Bell,Central
-Bosque,Central
-Brazos,Central
-Burleson,Central
-Coryell,Central
-Falls,Central
-Freestone,Central
-Grimes,Central
-Hamilton,Central
-Hill,Central
-Lampasas,Central
-Leon,Central
-Limestone,Central
-Madison,Central
-McLennan,Central
-Milam,Central
-Mills,Central
-Robertson,Central
-San Saba,Central
-Washington,Central
-Austin,Gulf Coast
-Brazoria,Gulf Coast
-Chambers,Gulf Coast
-Colorado,Gulf Coast
-Fort Bend,Gulf Coast
-Galveston,Gulf Coast
-Harris,Gulf Coast
-Liberty,Gulf Coast
-Matagorda,Gulf Coast
-Montgomery,Gulf Coast
-Walker,Gulf Coast
-Waller,Gulf Coast
-Wharton,Gulf Coast
-Armstrong,High Plains
-Bailey,High Plains
-Briscoe,High Plains
-Carson,High Plains
-Castro,High Plains
-Childress,High Plains
-Cochran,High Plains
-Collingsworth,High Plains
-Crosby,High Plains
-Dallam,High Plains
-Deaf Smith,High Plains
-Dickens,High Plains
-Donley,High Plains
-Floyd,High Plains
-Garza,High Plains
-Gray,High Plains
-Hale,High Plains
-Hall,High Plains
-Hansford,High Plains
-Hartley,High Plains
-Hemphill,High Plains
-Hockley,High Plains
-Hutchinson,High Plains
-King,High Plains
-Lamb,High Plains
-Lipscomb,High Plains
-Lubbock,High Plains
-Lynn,High Plains
-Moore,High Plains
-Motley,High Plains
-Ochiltree,High Plains
-Oldham,High Plains
-Parmer,High Plains
-Potter,High Plains
-Randall,High Plains
-Roberts,High Plains
-Sherman,High Plains
-Swisher,High Plains
-Terry,High Plains
-Wheeler,High Plains
-Yoakum,High Plains
-Collin,Metroplex
-Cooke,Metroplex
-Dallas,Metroplex
-Denton,Metroplex
-Ellis,Metroplex
-Erath,Metroplex
-Fannin,Metroplex
-Grayson,Metroplex
-Hood,Metroplex
-Hunt,Metroplex
-Johnson,Metroplex
-Kaufman,Metroplex
-Navarro,Metroplex
-Palo Pinto,Metroplex
-Parker,Metroplex
-Rockwall,Metroplex
-Somervell,Metroplex
-Tarrant,Metroplex
-Wise,Metroplex
-Archer,Northwest
-Baylor,Northwest
-Brown,Northwest
-Callahan,Northwest
-Clay,Northwest
-Coleman,Northwest
-Comanche,Northwest
-Cottle,Northwest
-Eastland,Northwest
-Fisher,Northwest
-Foard,Northwest
-Hardeman,Northwest
-Haskell,Northwest
-Jack,Northwest
-Jones,Northwest
-Kent,Northwest
-Knox,Northwest
-Mitchell,Northwest
-Montague,Northwest
-Nolan,Northwest
-Runnels,Northwest
-Scurry,Northwest
-Shackelford,Northwest
-Stephens,Northwest
-Stonewall,Northwest
-Taylor,Northwest
-Throckmorton,Northwest
-Wichita,Northwest
-Wilbarger,Northwest
-Young,Northwest
-Angelina,Southeast
-Hardin,Southeast
-Houston,Southeast
-Jasper,Southeast
-Jefferson,Southeast
-Nacogdoches,Southeast
-Newton,Southeast
-Orange,Southeast
-Polk,Southeast
-Sabine,Southeast
-San Augustine,Southeast
-San Jacinto,Southeast
-Shelby,Southeast
-Trinity,Southeast
-Tyler,Southeast
-Aransas,South
-Bee,South
-Brooks,South
-Cameron,South
-Dimmit,South
-Duval,South
-Edwards,South
-Hidalgo,South
-Jim Hogg,South
-Jim Wells,South
-Kenedy,South
-Kinney,South
-Kleberg,South
-La Salle,South
-Live Oak,South
-Maverick,South
-McMullen,South
-Nueces,South
-Real,South
-Refugio,South
-San Patricio,South
-Starr,South
-Uvalde,South
-Val Verde,South
-Webb,South
-Willacy,South
-Zapata,South
-Zavala,South
-Anderson,Upper East
-Bowie,Upper East
-Camp,Upper East
-Cass,Upper East
-Cherokee,Upper East
-Delta,Upper East
-Franklin,Upper East
-Gregg,Upper East
-Harrison,Upper East
-Henderson,Upper East
-Hopkins,Upper East
-Lamar,Upper East
-Marion,Upper East
-Morris,Upper East
-Panola,Upper East
-Rains,Upper East
-Red River,Upper East
-Rusk,Upper East
-Smith,Upper East
-Titus,Upper East
-Upshur,Upper East
-Van Zandt,Upper East
-Wood,Upper East
-Brewster,Upper Rio Grande
-Culberson,Upper Rio Grande
-El Paso,Upper Rio Grande
-Hudspeth,Upper Rio Grande
-Jeff Davis,Upper Rio Grande
-Presidio,Upper Rio Grande
-Andrews,West
-Borden,West
-Coke,West
-Concho,West
-Crane,West
-Crockett,West
-Dawson,West
-Ector,West
-Gaines,West
-Glasscock,West
-Howard,West
-Irion,West
-Kimble,West
-Loving,West
-Martin,West
-Mason,West
-McCulloch,West
-Menard,West
-Midland,West
-Pecos,West
-Reagan,West
-Reeves,West
-Schleicher,West
-Sterling,West
-Sutton,West
-Terrell,West
-Tom Green,West
-Upton,West
-Ward,West
-Winkler,West
+County,Econ_Region,Region_Num,Color_Fill
+Atascosa,Alamo,1,#8ca5a6
+Bandera,Alamo,1,#8ca5a7
+Bexar,Alamo,1,#8ca5a8
+Calhoun,Alamo,1,#8ca5a9
+Comal,Alamo,1,#8ca5a10
+DeWitt,Alamo,1,#8ca5a11
+Frio,Alamo,1,#8ca5a12
+Gillespie,Alamo,1,#8ca5a13
+Goliad,Alamo,1,#8ca5a14
+Gonzales,Alamo,1,#8ca5a15
+Guadalupe,Alamo,1,#8ca5a16
+Jackson,Alamo,1,#8ca5a17
+Karnes,Alamo,1,#8ca5a18
+Kendall,Alamo,1,#8ca5a19
+Kerr,Alamo,1,#8ca5a20
+Lavaca,Alamo,1,#8ca5a21
+Medina,Alamo,1,#8ca5a22
+Victoria,Alamo,1,#8ca5a23
+Wilson,Alamo,1,#8ca5a24
+Bastrop,Capital,2,#c98c8f
+Blanco,Capital,2,#c98c8f
+Burnet,Capital,2,#c98c8f
+Caldwell,Capital,2,#c98c8f
+Fayette,Capital,2,#c98c8f
+Hays,Capital,2,#c98c8f
+Lee,Capital,2,#c98c8f
+Llano,Capital,2,#c98c8f
+Travis,Capital,2,#c98c8f
+Williamson,Capital,2,#c98c8f
+Bell,Central,3,#a894ab
+Bosque,Central,3,#a894ab
+Brazos,Central,3,#a894ab
+Burleson,Central,3,#a894ab
+Coryell,Central,3,#a894ab
+Falls,Central,3,#a894ab
+Freestone,Central,3,#a894ab
+Grimes,Central,3,#a894ab
+Hamilton,Central,3,#a894ab
+Hill,Central,3,#a894ab
+Lampasas,Central,3,#a894ab
+Leon,Central,3,#a894ab
+Limestone,Central,3,#a894ab
+Madison,Central,3,#a894ab
+McLennan,Central,3,#a894ab
+Milam,Central,3,#a894ab
+Mills,Central,3,#a894ab
+Robertson,Central,3,#a894ab
+San Saba,Central,3,#a894ab
+Washington,Central,3,#a894ab
+Austin,Gulf Coast,4,#b08593
+Brazoria,Gulf Coast,4,#b08594
+Chambers,Gulf Coast,4,#b08595
+Colorado,Gulf Coast,4,#b08596
+Fort Bend,Gulf Coast,4,#b08597
+Galveston,Gulf Coast,4,#b08598
+Harris,Gulf Coast,4,#b08599
+Liberty,Gulf Coast,4,#b08600
+Matagorda,Gulf Coast,4,#b08601
+Montgomery,Gulf Coast,4,#b08602
+Walker,Gulf Coast,4,#b08603
+Waller,Gulf Coast,4,#b08604
+Wharton,Gulf Coast,4,#b08605
+Armstrong,High Plains,5,#d8ba93
+Bailey,High Plains,5,#d8ba94
+Briscoe,High Plains,5,#d8ba95
+Carson,High Plains,5,#d8ba96
+Castro,High Plains,5,#d8ba97
+Childress,High Plains,5,#d8ba98
+Cochran,High Plains,5,#d8ba99
+Collingsworth,High Plains,5,#d8ba100
+Crosby,High Plains,5,#d8ba101
+Dallam,High Plains,5,#d8ba102
+Deaf Smith,High Plains,5,#d8ba103
+Dickens,High Plains,5,#d8ba104
+Donley,High Plains,5,#d8ba105
+Floyd,High Plains,5,#d8ba106
+Garza,High Plains,5,#d8ba107
+Gray,High Plains,5,#d8ba108
+Hale,High Plains,5,#d8ba109
+Hall,High Plains,5,#d8ba110
+Hansford,High Plains,5,#d8ba111
+Hartley,High Plains,5,#d8ba112
+Hemphill,High Plains,5,#d8ba113
+Hockley,High Plains,5,#d8ba114
+Hutchinson,High Plains,5,#d8ba115
+King,High Plains,5,#d8ba116
+Lamb,High Plains,5,#d8ba117
+Lipscomb,High Plains,5,#d8ba118
+Lubbock,High Plains,5,#d8ba119
+Lynn,High Plains,5,#d8ba120
+Moore,High Plains,5,#d8ba121
+Motley,High Plains,5,#d8ba122
+Ochiltree,High Plains,5,#d8ba123
+Oldham,High Plains,5,#d8ba124
+Parmer,High Plains,5,#d8ba125
+Potter,High Plains,5,#d8ba126
+Randall,High Plains,5,#d8ba127
+Roberts,High Plains,5,#d8ba128
+Sherman,High Plains,5,#d8ba129
+Swisher,High Plains,5,#d8ba130
+Terry,High Plains,5,#d8ba131
+Wheeler,High Plains,5,#d8ba132
+Yoakum,High Plains,5,#d8ba133
+Collin,Metroplex,6,#8c95a2
+Cooke,Metroplex,6,#8c95a3
+Dallas,Metroplex,6,#8c95a4
+Denton,Metroplex,6,#8c95a5
+Ellis,Metroplex,6,#8c95a6
+Erath,Metroplex,6,#8c95a7
+Fannin,Metroplex,6,#8c95a8
+Grayson,Metroplex,6,#8c95a9
+Hood,Metroplex,6,#8c95a10
+Hunt,Metroplex,6,#8c95a11
+Johnson,Metroplex,6,#8c95a12
+Kaufman,Metroplex,6,#8c95a13
+Navarro,Metroplex,6,#8c95a14
+Palo Pinto,Metroplex,6,#8c95a15
+Parker,Metroplex,6,#8c95a16
+Rockwall,Metroplex,6,#8c95a17
+Somervell,Metroplex,6,#8c95a18
+Tarrant,Metroplex,6,#8c95a19
+Wise,Metroplex,6,#8c95a20
+Archer,Northwest,7,#c18d8d
+Baylor,Northwest,7,#c18d8d
+Brown,Northwest,7,#c18d8d
+Callahan,Northwest,7,#c18d8d
+Clay,Northwest,7,#c18d8d
+Coleman,Northwest,7,#c18d8d
+Comanche,Northwest,7,#c18d8d
+Cottle,Northwest,7,#c18d8d
+Eastland,Northwest,7,#c18d8d
+Fisher,Northwest,7,#c18d8d
+Foard,Northwest,7,#c18d8d
+Hardeman,Northwest,7,#c18d8d
+Haskell,Northwest,7,#c18d8d
+Jack,Northwest,7,#c18d8d
+Jones,Northwest,7,#c18d8d
+Kent,Northwest,7,#c18d8d
+Knox,Northwest,7,#c18d8d
+Mitchell,Northwest,7,#c18d8d
+Montague,Northwest,7,#c18d8d
+Nolan,Northwest,7,#c18d8d
+Runnels,Northwest,7,#c18d8d
+Scurry,Northwest,7,#c18d8d
+Shackelford,Northwest,7,#c18d8d
+Stephens,Northwest,7,#c18d8d
+Stonewall,Northwest,7,#c18d8d
+Taylor,Northwest,7,#c18d8d
+Throckmorton,Northwest,7,#c18d8d
+Wichita,Northwest,7,#c18d8d
+Wilbarger,Northwest,7,#c18d8d
+Young,Northwest,7,#c18d8d
+Angelina,Southeast,8,#9d9788
+Hardin,Southeast,8,#9d9789
+Houston,Southeast,8,#9d9790
+Jasper,Southeast,8,#9d9791
+Jefferson,Southeast,8,#9d9792
+Nacogdoches,Southeast,8,#9d9793
+Newton,Southeast,8,#9d9794
+Orange,Southeast,8,#9d9795
+Polk,Southeast,8,#9d9796
+Sabine,Southeast,8,#9d9797
+San Augustine,Southeast,8,#9d9798
+San Jacinto,Southeast,8,#9d9799
+Shelby,Southeast,8,#9d9800
+Trinity,Southeast,8,#9d9801
+Tyler,Southeast,8,#9d9802
+Aransas,South,9,#c6a18d
+Bee,South,9,#c6a18d
+Brooks,South,9,#c6a18d
+Cameron,South,9,#c6a18d
+Dimmit,South,9,#c6a18d
+Duval,South,9,#c6a18d
+Edwards,South,9,#c6a18d
+Hidalgo,South,9,#c6a18d
+Jim Hogg,South,9,#c6a18d
+Jim Wells,South,9,#c6a18d
+Kenedy,South,9,#c6a18d
+Kinney,South,9,#c6a18d
+Kleberg,South,9,#c6a18d
+La Salle,South,9,#c6a18d
+Live Oak,South,9,#c6a18d
+Maverick,South,9,#c6a18d
+McMullen,South,9,#c6a18d
+Nueces,South,9,#c6a18d
+Real,South,9,#c6a18d
+Refugio,South,9,#c6a18d
+San Patricio,South,9,#c6a18d
+Starr,South,9,#c6a18d
+Uvalde,South,9,#c6a18d
+Val Verde,South,9,#c6a18d
+Webb,South,9,#c6a18d
+Willacy,South,9,#c6a18d
+Zapata,South,9,#c6a18d
+Zavala,South,9,#c6a18d
+Anderson,Upper East,10,#8cafaa
+Bowie,Upper East,10,#8cafaa
+Camp,Upper East,10,#8cafaa
+Cass,Upper East,10,#8cafaa
+Cherokee,Upper East,10,#8cafaa
+Delta,Upper East,10,#8cafaa
+Franklin,Upper East,10,#8cafaa
+Gregg,Upper East,10,#8cafaa
+Harrison,Upper East,10,#8cafaa
+Henderson,Upper East,10,#8cafaa
+Hopkins,Upper East,10,#8cafaa
+Lamar,Upper East,10,#8cafaa
+Marion,Upper East,10,#8cafaa
+Morris,Upper East,10,#8cafaa
+Panola,Upper East,10,#8cafaa
+Rains,Upper East,10,#8cafaa
+Red River,Upper East,10,#8cafaa
+Rusk,Upper East,10,#8cafaa
+Smith,Upper East,10,#8cafaa
+Titus,Upper East,10,#8cafaa
+Upshur,Upper East,10,#8cafaa
+Van Zandt,Upper East,10,#8cafaa
+Wood,Upper East,10,#8cafaa
+Brewster,Upper Rio Grande,11,#d89f92
+Culberson,Upper Rio Grande,11,#d89f93
+El Paso,Upper Rio Grande,11,#d89f94
+Hudspeth,Upper Rio Grande,11,#d89f95
+Jeff Davis,Upper Rio Grande,11,#d89f96
+Presidio,Upper Rio Grande,11,#d89f97
+Andrews,West,12,#a2a2b9
+Borden,West,12,#a2a2b10
+Coke,West,12,#a2a2b11
+Concho,West,12,#a2a2b12
+Crane,West,12,#a2a2b13
+Crockett,West,12,#a2a2b14
+Dawson,West,12,#a2a2b15
+Ector,West,12,#a2a2b16
+Gaines,West,12,#a2a2b17
+Glasscock,West,12,#a2a2b18
+Howard,West,12,#a2a2b19
+Irion,West,12,#a2a2b20
+Kimble,West,12,#a2a2b21
+Loving,West,12,#a2a2b22
+Martin,West,12,#a2a2b23
+Mason,West,12,#a2a2b24
+McCulloch,West,12,#a2a2b25
+Menard,West,12,#a2a2b26
+Midland,West,12,#a2a2b27
+Pecos,West,12,#a2a2b28
+Reagan,West,12,#a2a2b29
+Reeves,West,12,#a2a2b30
+Schleicher,West,12,#a2a2b31
+Sterling,West,12,#a2a2b32
+Sutton,West,12,#a2a2b33
+Terrell,West,12,#a2a2b34
+Tom Green,West,12,#a2a2b35
+Upton,West,12,#a2a2b36
+Ward,West,12,#a2a2b37
+Winkler,West,12,#a2a2b38

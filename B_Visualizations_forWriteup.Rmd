@@ -1,0 +1,995 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(shiny)
+library(dplyr) 
+library(tidyr) 
+library(ggplot2) 
+library(readr)
+library(maps)
+library(usmap)
+library(gridExtra)
+library(biscale)
+library(cowplot)
+library(sf)
+library(shinythemes)
+
+# ------------------------
+# import data
+# ------------------------
+TX_counties <-read.csv("CData/texas0.csv")
+Children_TX <-read.csv("CData/Children_TX.csv")
+Adopt_Need <-read.csv("CData/Adopt_Need.csv")
+Homes <-read.csv("CData/Homes.csv")
+Removals <-read.csv("CData/Removals.csv")
+Placements<-read.csv("CData/Placements.csv")
+map_data <- read.csv("CData/Shiny_map_data.csv")
+```
+
+```{r}
+# Plotting Functions
+create_homes_removals_plot <- function(map_data, year) {
+  
+  color_map = c("#da4f58","#eda8a9","#e8e7e6",
+                "#a44c55","#b09ca5","#a4d5e1",
+                "#5a3f49","#5b7d8f","#43aac0")
+  x_text = "More Removals ->"
+  y_text = "More Homes ->"  
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # -----------------------------------------
+  # The breaks:
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
+  # -----------------------------------------
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  var2 = map_data_year$Homes_Total_County_per100K
+  data <- cbind(mdata,var1,var2)  
+  
+  x = as.numeric(unlist(data[7]))
+  y = as.numeric(unlist(data[8]))
+  
+  # create 3 buckets for variable 1
+  quantiles_x <- quantile(x, 
+                          probs = c(0,ecdf(x)(x_brk_points[1]),
+                                    ecdf(x)(x_brk_points[2]),1), na.rm = TRUE)
+  # create 3 buckets for variable 2
+  quantiles_y <- quantile(y, 
+                          probs = c(0,ecdf(y)(y_brk_points[1]),
+                                    ecdf(y)(y_brk_points[2]),1), na.rm = TRUE)
+  
+  # create color scale that encodes two variables
+  bivariate_color_scale <- tibble(
+    "3 - 3" = color_map[1], # high X, high Y
+    "2 - 3" = color_map[2],
+    "1 - 3" = color_map[3], # low X, high Y
+    "3 - 2" = color_map[4],
+    "2 - 2" = color_map[5], # medium X, medium Y
+    "1 - 2" = color_map[6],
+    "3 - 1" = color_map[7], # high X, low Y
+    "2 - 1" = color_map[8],
+    "1 - 1" = color_map[9] # low X, low Y
+  ) %>%
+    gather("group", "fill")
+  
+  # cut into groups defined above and join fill
+  bar <- data %>%
+    mutate(
+      x_quantiles = cut(
+        x,
+        breaks = quantiles_x,
+        include.lowest = TRUE
+      ),
+      y_quantiles = cut(
+        y,
+        breaks = quantiles_y,
+        include.lowest = TRUE
+      ),
+      group = paste(
+        as.numeric(x_quantiles), "-",
+        as.numeric(y_quantiles)
+      )
+    ) %>%
+    # we now join the actual hex values per "group"
+    # so each county has a hex value based on x and y
+    left_join(bivariate_color_scale, by = "group")
+  
+  foo = bar %>% select(fips,fill)
+  colours = color_map
+  
+  ## ----------------------------------------------------------------
+  map <- plot_usmap(data = foo, values = "fill", include = c("TX"), color = "black", ) +  
+    scale_fill_manual(
+      values = colours,
+      breaks = colours,
+      drop = FALSE, na.value = "white") + theme(legend.position = "none")
+  
+  # CREATE THE LEGEND
+  group = c("3 - 3", "2 - 3", "1 - 3", 
+            "3 - 2", "2 - 2", "1 - 2", 
+            "3 - 1","2 - 1", "1 - 1")
+  fill = color_map
+  leg_data <- data.frame(group, fill)
+  
+  # Create the legend
+  # separate the groups
+  leg_data %<>%
+    separate(group, into = c("x", "y"), sep = " - ") %>%
+    mutate(x = as.integer(x),
+           y = as.integer(y))
+  
+  legend <- ggplot() +
+    geom_tile(
+      data = leg_data,
+      mapping = aes(
+        x = x,
+        y = y,
+        fill = color_map)
+    ) +
+    scale_fill_identity() +
+    ylab(y_text) +
+    xlab(x_text) +
+    theme(axis.ticks.y = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.text.x = element_blank(), axis.text.y=element_blank(), 
+          axis.title = element_text(size = 6)) + 
+    coord_fixed() + 
+    theme(plot.background = element_rect(color = "white", fill = "white"))
+  
+  bivar_plot <- ggdraw() +
+    draw_plot(map, 0, 0, 1, 1) +
+    #draw_plot(legend, 0.05, 0.05, 0.3, 0.3) + 
+    theme(plot.background = element_rect(color = "white", fill = "white"))
+  
+  return(bivar_plot)
+} # END OF FUNCTION # 1
+
+create_homes_plot_simple <- function(map_data, year) {
+  
+  legend_text = "FAD Homes per 100K residents"
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Homes_Total_County_per100K
+  data <- cbind(mdata,var1)  
+  
+  data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#a9a9a9","#BE0D73","#F25E74","#FF8884","#34A1C7","#026178")
+  labels <- c()
+  brks <- c(0,10, 25, 50, 75, 100, 125)
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  univar_plot <-plot_usmap(data = data, values = "brks", include = c("TX"), color = "black") + 
+    theme_map() +
+    scale_fill_manual(
+      values = colours,
+      name = legend_text,
+      drop = FALSE, 
+      labels = labels_scale,
+      guide = guide_legend(
+        direction = "horizontal",
+        keyheight = unit(6, units = "mm"),
+        keywidth = unit(100 / length(labels), units = "mm"),
+        title.position = 'top',
+        title.hjust = 0,
+        label.hjust = 1,
+        nrow = 1,
+        byrow = T,
+        reverse = F,
+        label.position = "bottom"), 
+        na.translate = FALSE) + 
+    theme(plot.background = element_rect(color = "white", fill = "white")) +
+    theme(legend.text=element_text(size=14)) + 
+    theme(legend.background = element_rect(color = "white", fill = "white")) + 
+    theme(legend.position="top") # was "bottom"
+  
+  return(univar_plot)
+} # END OF FUNCTION # 2
+
+create_removals_plot_simple <- function(map_data, year) {
+  
+  legend_text = "Removals per 1K children"
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  data <- cbind(mdata,var1)  
+  
+  data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#a9a9a9","#eac259","#f39f62","#f67300","#e52835","#810301")
+  labels <- c()
+  brks <- c(0,5, 10, 15, 20, 30, 50)
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  univar_plot <-plot_usmap(data = data, values = "brks", include = c("TX"), color = "black") + 
+    theme_map() +
+    scale_fill_manual(
+      values = colours,
+      name = legend_text,
+      drop = FALSE, 
+      labels = labels_scale,
+      guide = guide_legend(
+        direction = "horizontal",
+        keyheight = unit(6, units = "mm"),
+        keywidth = unit(100 / length(labels), units = "mm"),
+        title.position = 'top',
+        title.hjust = 0,
+        label.hjust = 1,
+        nrow = 1,
+        byrow = T,
+        reverse = F,
+        label.position = "bottom"),
+      na.translate = FALSE) + 
+    theme(plot.background = element_rect(color = "white", fill = "white")) +
+    theme(legend.text=element_text(size=14)) + 
+    theme(legend.background = element_rect(color = "white", fill = "white")) + 
+    theme(legend.position="top")
+  
+  return(univar_plot)
+} # END OF FUNCTION # 3
+
+extract_dataframe2 <- function(map_data, year) {
+  
+  legend_text = "Removals per 1K children"
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  data <- cbind(mdata,var1)  
+  
+  data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#a9a9a9","#eac259","#f39f62","#f67300","#e52835","#810301")
+  labels <- c()
+  brks <- c(0,5, 10, 15, 20, 30, 50)
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  return(data)
+} # END OF FUNCTION # 3b
+
+extract_priority_list2 <- function(map_data, year) {
+  
+  color_map = c("#da4f58","#eda8a9","#e8e7e6",
+                "#a44c55","#b09ca5","#a4d5e1",
+                "#5a3f49","#5b7d8f","#43aac0")
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # -----------------------------------------
+  # The breaks:
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
+  # -----------------------------------------
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  var2 = map_data_year$Homes_Total_County_per100K
+  data <- cbind(mdata,var1,var2)  
+  
+  x = as.numeric(unlist(data[7]))
+  y = as.numeric(unlist(data[8]))
+  
+  # create 3 buckets for variable 1
+  quantiles_x <- quantile(x, 
+                          probs = c(0,ecdf(x)(x_brk_points[1]),
+                                    ecdf(x)(x_brk_points[2]),1), na.rm = TRUE)
+  # create 3 buckets for variable 2
+  quantiles_y <- quantile(y, 
+                          probs = c(0,ecdf(y)(y_brk_points[1]),
+                                    ecdf(y)(y_brk_points[2]),1), na.rm = TRUE)
+  
+  # create color scale that encodes two variables
+  bivariate_color_scale <- tibble(
+    "3 - 3" = color_map[1], # high X, high Y
+    "2 - 3" = color_map[2],
+    "1 - 3" = color_map[3], # low X, high Y
+    "3 - 2" = color_map[4],
+    "2 - 2" = color_map[5], # medium X, medium Y
+    "1 - 2" = color_map[6],
+    "3 - 1" = color_map[7], # high X, low Y
+    "2 - 1" = color_map[8],
+    "1 - 1" = color_map[9] # low X, low Y
+  ) %>%
+    gather("group", "fill")
+  
+  # cut into groups defined above and join fill
+  bar <- data %>%
+    mutate(
+      x_quantiles = cut(
+        x,
+        breaks = quantiles_x,
+        include.lowest = TRUE
+      ),
+      y_quantiles = cut(
+        y,
+        breaks = quantiles_y,
+        include.lowest = TRUE
+      ),
+      group = paste(
+        as.numeric(x_quantiles), "-",
+        as.numeric(y_quantiles)
+      )
+    ) %>%
+    # we now join the actual hex values per "group"
+    # so each county has a hex value based on x and y
+    left_join(bivariate_color_scale, by = "group")
+  
+  foo = bar %>% select(fips,fill)
+  colours = color_map
+  
+  # --------------------------------
+  the_list = sort(bar$County[bar$fips %in% (foo$fips[foo$fill=="#5a3f49"])])
+  
+  return(the_list)
+} # END OF FUNCTION # 7b
+extract_dataframe <- function(map_data, year) {
+  
+  color_map = c("#da4f58","#eda8a9","#e8e7e6",
+                "#a44c55","#b09ca5","#a4d5e1",
+                "#5a3f49","#5b7d8f","#43aac0")
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # -----------------------------------------
+  # The breaks:
+  x_brk_points = c(3, 5)   # removals
+  y_brk_points = c(6, 11)  # homes
+  # -----------------------------------------
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  var2 = map_data_year$Homes_Total_County_per100K
+  data <- cbind(mdata,var1,var2)  
+  
+  x = as.numeric(unlist(data[7]))
+  y = as.numeric(unlist(data[8]))
+  
+  # create 3 buckets for variable 1
+  quantiles_x <- quantile(x, 
+                          probs = c(0,ecdf(x)(x_brk_points[1]),
+                                    ecdf(x)(x_brk_points[2]),1), na.rm = TRUE)
+  # create 3 buckets for variable 2
+  quantiles_y <- quantile(y, 
+                          probs = c(0,ecdf(y)(y_brk_points[1]),
+                                    ecdf(y)(y_brk_points[2]),1), na.rm = TRUE)
+  
+  # create color scale that encodes two variables
+  bivariate_color_scale <- tibble(
+    "3 - 3" = color_map[1], # high X, high Y
+    "2 - 3" = color_map[2],
+    "1 - 3" = color_map[3], # low X, high Y
+    "3 - 2" = color_map[4],
+    "2 - 2" = color_map[5], # medium X, medium Y
+    "1 - 2" = color_map[6],
+    "3 - 1" = color_map[7], # high X, low Y
+    "2 - 1" = color_map[8],
+    "1 - 1" = color_map[9] # low X, low Y
+  ) %>%
+    gather("group", "fill")
+  
+  # cut into groups defined above and join fill
+  bar <- data %>%
+    mutate(
+      x_quantiles = cut(
+        x,
+        breaks = quantiles_x,
+        include.lowest = TRUE
+      ),
+      y_quantiles = cut(
+        y,
+        breaks = quantiles_y,
+        include.lowest = TRUE
+      ),
+      group = paste(
+        as.numeric(x_quantiles), "-",
+        as.numeric(y_quantiles)
+      )
+    ) %>%
+    # we now join the actual hex values per "group"
+    # so each county has a hex value based on x and y
+    left_join(bivariate_color_scale, by = "group")
+  
+  foo = bar %>% select(fips,fill)
+  colours = color_map
+  
+  # --------------------------------
+  return(bar)
+} # END OF FUNCTION # 7b
+```
+
+```{r}
+map_data$empty_vec = rep(NA, 254)
+plot_usmap(data = map_data, values = "empty_vec", include = c("TX"), color = "black") + 
+  theme_map() +
+    scale_fill_manual(
+          values = "white", na.value="white") +
+  theme(plot.background = element_rect(color = "gray", fill = "gray")) 
+
+# ---------------
+
+```
+
+```{r}
+
+map_data <- map_data %>% separate(Region, c("DReg_Num", "Region"), "-")
+
+map_data$DReg_Num <- as.numeric(as.character(map_data$DReg_Num))
+
+```
+
+
+
+```{r}
+
+  legend_text = ""
+
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == 2021)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "DReg_Num", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$DReg_Num
+  data <- cbind(mdata,var1)  
+  
+  data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#4363d8","#aaffc3","#911eb4","#fabed4","#c50275","#42d4f4","#f58231","#dcbeff","#ffe119","#007c7c","#98D640","#a9a9a9")
+  
+  labels <- c()
+  brks <- c(0,1, 2, 3, 4, 5, 6, 7, 8, 9,10,11)
+  
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  plot_usmap(data = data, values = "brks", include = c("TX"), color = "black") + 
+    theme_map() +
+    scale_fill_manual(
+      values = colours,
+      name = legend_text,
+      drop = FALSE, 
+      labels = c("Lubbock","Abilene","Arlington","Tyler","Beaumont","Houston","Austin","San Antonio","Midland","El Paso","Edinburg"),
+      guide = guide_legend(
+        direction = "vertical",
+        keyheight = unit(6, units = "mm"),
+        keywidth = unit(100 / length(labels), units = "mm"),
+        title.position = 'top',
+        title.hjust = 0,
+        label.hjust = 1,
+        nrow = 12,
+        byrow = F,
+        reverse = F,
+        label.position = "left"),
+      na.translate = FALSE) + 
+    theme(plot.background = element_rect(color = "white", fill = "white")) +
+    theme(legend.text=element_text(size=14)) + 
+    theme(legend.background = element_rect(color = "white", fill = "white")) + 
+    theme(legend.position="right")
+  
+
+```
+
+
+
+```{r}
+Homes %>% group_by(Year) %>% summarise(Total = sum(Count))
+
+Homes %>% group_by(Year, Type) %>% summarise(Total = sum(Count)) %>% 
+            ggplot(aes(x =  Year, y = Total, fill = Type)) + 
+            geom_bar(stat = 'identity') + 
+            ggtitle("") +
+            scale_x_continuous(name="Year", limits=c(2010.5, 2021.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)) + 
+            theme(plot.title = element_text(hjust = 0.5)) +
+            theme(axis.text.x = element_text(color="black", size=12, angle=30)) + 
+            theme(axis.text.y = element_text(color="black", size=14, angle=0)) + 
+            theme(axis.title = element_text(size = 16)) +
+            theme(legend.text = element_text(size = 14)) +
+            theme(legend.title = element_text(size = 14))  +
+            theme(plot.title = element_text(size = 14)) + 
+            scale_fill_manual(name = "Home Type", values = c("#6091c2", "#21c5aa", "#000000")) 
+```
+
+
+```{r}
+# 2011 bar chart
+map_data_2011 <- map_data %>% filter(Year == "2011") %>% filter(Homes_Total_County==0) 
+
+sum(map_data_2011$Homes_Total_County==0)
+
+map_data_2011 <- within(map_data_2011, 
+                   Region<- factor(Region, 
+                                      levels=names(sort(table(Region), 
+                                                        decreasing=FALSE))))
+ggplot(map_data_2011, aes(y = Region)) +
+  geom_bar(fill="black") + theme(axis.text.x = element_text(color="black", size=9, angle=0)) + labs(y = "Region", x = "County Count")
+
+# 2021 bar chart
+map_data_2021 <- map_data%>% filter(Year == "2021")  %>% filter(Homes_Total_County==0) 
+
+sum(map_data_2021$Homes_Total_County==0)
+
+map_data_2021 <- within(map_data_2021, 
+                   Region<- factor(Region, 
+                                      levels=names(sort(table(Region), 
+                                                        decreasing=FALSE))))
+ggplot(map_data_2021, aes(y = Region)) +
+  geom_bar(fill="black") + theme(axis.text.x = element_text(color="black", size=9, angle=0)) + labs(y = "DReg_Num", x = "County Count")
+
+fig0 = create_homes_plot_simple(map_data, 2021) 
+fig0 + theme(legend.text=element_text(size=12)) 
+
+# maps figure
+
+fig1 = create_homes_plot_simple(map_data, 2011) + 
+  theme(legend.position="none")
+fig2 = create_homes_plot_simple(map_data, 2021) + 
+  theme(legend.position="none")
+
+grid.arrange(fig1+ggtitle("2011")+theme(plot.title = element_text(hjust = 0.5)), 
+             fig2+ggtitle("2021")+theme(plot.title = element_text(hjust = 0.5)), 
+             nrow = 1)
+```
+
+
+```{r}
+Removals %>% group_by(Year, Removal.Stage) %>% summarise(Total = sum(Removals)) %>% ggplot(aes(x =  Year, y = Total, fill = Removal.Stage)) + 
+            geom_bar(stat = 'identity') + 
+            theme(axis.text.x = element_text(color="black", size=12, angle=45)) + 
+            theme(axis.text.y = element_text(color="black", size=12, angle=0)) + 
+            theme(axis.title = element_text(size = 16)) +
+            theme(legend.text = element_text(size = 14)) +
+            theme(legend.title = element_text(size = 14))  +
+            theme(plot.title = element_text(size = 14)) +
+            ggtitle("") +
+            scale_x_continuous(name="Year", limits=c(2010.5, 2021.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)) +
+            scale_fill_manual(name = "Removal Stage", values = c("#058abd","#1c3152"))
+
+# Trying to get percentages
+Totals_byYear <- Removals %>% group_by(Year) %>% summarize(Total_Year = sum(Removals)) 
+Totals_byStage_byYear <- Removals %>% group_by(Year, Removal.Stage) %>% summarize(Total_Stage = sum(Removals)) 
+x <- merge(Totals_byStage_byYear,Totals_byYear, by = "Year") 
+x <- mutate(x, Percent = (Total_Stage/Total_Year)*100)
+x %>% ggplot(aes(x =  Year, y = Percent, fill = Removal.Stage)) + geom_bar(stat = 'identity') + theme(axis.text.x = element_text(color="black", size=9, angle=45)) + ggtitle("") +
+  scale_x_continuous(name="Year", limits=c(2010.5, 2021.5), breaks = c(2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021)) + 
+  theme(plot.background = element_rect(color = "#c9daf8", fill = "#c9daf8")) + scale_fill_manual(values = c("#058abd","#1c3152"))
+
+```
+
+
+```{r}
+Removals %>% group_by(Year) %>% summarise(Total = sum(Removals)) 
+```
+
+```{r}
+# 2021 bar chart
+removals_data_2021 <- extract_dataframe2(map_data, 2021)
+
+#"#eac259","#f39f62","#f67300"
+removals_data_2021_high <- filter(removals_data_2021 , brks!="5") %>% select("Year", "County", "Region","brks")
+
+removals_data_2021_high <- within(removals_data_2021_high, 
+                   Region<- factor(Region, 
+                                      levels=names(sort(table(Region), 
+                                                        decreasing=FALSE))))
+ggplot(removals_data_2021_high, aes(y = Region)) +
+  geom_bar(fill="black") + theme(axis.text.x = element_text(color="black", size=9, angle=0)) + labs(y = "Region", x = "County Count")
+
+# -------
+library(ggtext) 
+my_caption = "<span style='color:#000000'>2011</span>  <span style='color:#ececec'>2013  2015  2017  2019  2021</span>"
+
+fig = create_removals_plot_simple(map_data, 2021) 
+fig + theme(legend.text=element_text(size=12)) 
+
+##-----------------
+fig3 = create_removals_plot_simple(map_data, 2011) + 
+  theme(legend.position="none")
+fig4 = create_removals_plot_simple(map_data, 2021) + 
+  theme(legend.position="none")
+
+grid.arrange(fig3+ggtitle("2011")+theme(plot.title = element_text(hjust = 0.5)), 
+             fig4+ggtitle("2021")+theme(plot.title = element_text(hjust = 0.5)), 
+             nrow = 1)
+```
+
+
+```{r}
+# Building the parts of the dataframe we will work with
+mdata <- map_data %>% select("Year", "County", 
+                             "Homes_Total_County_per100K",
+                             "Removals_Total_County_per1K")
+
+mdata$Year<-as.factor(mdata$Year)
+
+new1 <-mdata %>% group_by(County) %>% summarise(MeanHomes = mean(Homes_Total_County_per100K)) %>% select("MeanHomes") 
+
+new2 <-mdata %>% group_by(County) %>% summarise(MeanRemovals = mean(Removals_Total_County_per1K)) %>% select("MeanRemovals")
+
+new1$MeanHomes[new1$MeanHomes==0] <- NA 
+new2$MeanRemovals[new2$MeanRemovals==0] <- NA 
+
+# Plot 1
+layout(mat = matrix(c(1,2),2,1, byrow=TRUE),  height = c(1,8))
+par(mar=c(0, 3.1, 1.1, 2.1))
+boxplot(new1$MeanHomes, horizontal=TRUE , ylim=c(0,50), xaxt="n" , col=rgb(3/255,149/255,114/255,0.85) , frame=F)
+par(mar=c(4, 3.1, 1.1, 2.1))
+hist(new1$MeanHomes, breaks=40 , col=rgb(0/255,0/255,124/255,0.85) , border=T , main="" , xlab="Average Number of Homes Per 100K Residents between 2011-2021", xlim=c(0,50))
+
+# Plot 2
+layout(mat = matrix(c(1,2),2,1, byrow=TRUE),  height = c(1,8))
+par(mar=c(0, 3.1, 1.1, 2.1))
+boxplot(new2$MeanRemovals, horizontal=TRUE , ylim=c(0,15), xaxt="n" , col=rgb(3/255,149/255,114/255,0.85) , frame=F) + geom_hline(xintercept=10) 
+par(mar=c(4, 3.1, 1.1, 2.1))
+hist(new2$MeanRemovals, breaks=40 , col=rgb(0/255,0/255,124/255,0.85) , border=T , main="" , xlab="Average Number of Removals Per 1K Children between 2011-2021", xlim=c(0,15)) 
+
+quantile(new1$MeanHomes,probs = 0.33333,na.rm = TRUE)
+quantile(new1$MeanHomes,probs = 0.66667,na.rm = TRUE)
+
+quantile(new2$MeanRemovals,probs = 0.33333,na.rm = TRUE)
+quantile(new2$MeanRemovals,probs = 0.66667,na.rm = TRUE)
+```
+
+
+
+```{r}
+# Map Function with 3 Breaks
+create_homes_plot_simple_3brks <- function(map_data, year) {
+  
+  legend_text = "FAD Homes per 100K residents"
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Homes_Total_County_per100K
+  data <- cbind(mdata,var1)  
+  
+  #data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#43aabf","#a4d5e1","#969696")
+  labels <- c()
+  brks <- c(0,6,11,50)
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  univar_plot <-plot_usmap(data = data, values = "brks", include = c("TX"), color = "black") + 
+    theme_map() +
+    scale_fill_manual(
+      values = colours,
+      name = legend_text,
+      drop = FALSE, 
+      labels = labels_scale,
+      guide = guide_legend(
+        direction = "horizontal",
+        keyheight = unit(6, units = "mm"),
+        keywidth = unit(65 / length(labels), units = "mm"),
+        title.position = 'top',
+        title.hjust = 0,
+        label.hjust = 1,
+        nrow = 1,
+        byrow = T,
+        reverse = F,
+        label.position = "bottom"), 
+        na.translate = FALSE) + 
+    theme(plot.background = element_rect(color = "white", fill = "white")) +
+    theme(legend.text=element_text(size=12)) + 
+    theme(legend.background = element_rect(color = "white", fill = "white")) + 
+    theme(legend.position="top")  + theme(text=element_text(size=12))
+  
+  return(univar_plot)
+} # END OF FUNCTION # 2 updated
+
+create_removals_plot_simple_3brks <- function(map_data, year) {
+  
+  legend_text = "Removals per 1K children"
+  
+  # Filter for Chosen Year
+  map_data_year <- filter(map_data, Year == year)
+  
+  # Building the parts of the dataframe we will work with
+  mdata <- map_data_year %>% select("Year", "County", 
+                                    "Region", "fips", "lon", "lat")
+  
+  # create dataframe we will work with to plot
+  var1 = map_data_year$Removals_Total_County_per1K
+  data <- cbind(mdata,var1)  
+  
+  #data$var1[data$var1==0] <- NA 
+  
+  # --------------------------------
+  # Compute scale
+  # --------------------------------
+  colours = c("#969696","#eda8a9","#cf3946")
+  labels <- c()
+  brks <- c(0,3, 5, 50)
+  for(idx in 1:length(brks)){
+    labels <- c(labels,round(brks[idx + 1], 2))
+  }
+  labels <- labels[1:length(labels)-1]
+  # define a new variable on the data set just as above
+  data$brks <- cut(data$var1, 
+                   breaks = brks, 
+                   include.lowest = TRUE, 
+                   labels = labels)
+  brks_scale <- levels(data$brks)
+  labels_scale <- (brks_scale)
+  # --------------------------------
+  
+  univar_plot <-plot_usmap(data = data, values = "brks", include = c("TX"), color = "black") + 
+    theme_map() +
+    scale_fill_manual(
+      values = colours,
+      name = legend_text,
+      drop = FALSE, 
+      labels = labels_scale,
+      guide = guide_legend(
+        direction = "horizontal",
+        keyheight = unit(6, units = "mm"),
+        keywidth = unit(65 / length(labels), units = "mm"),
+        title.position = 'top',
+        title.hjust = 0,
+        label.hjust = 1,
+        nrow = 1,
+        byrow = T,
+        reverse = F,
+        label.position = "bottom"),
+      na.translate = FALSE) + 
+    theme(plot.background = element_rect(color = "white", fill = "white")) +
+    theme(legend.text=element_text(size=12)) + 
+    theme(legend.background = element_rect(color = "white", fill = "white")) + 
+    theme(legend.position="top") + theme(text=element_text(size=12))
+  
+  return(univar_plot)
+} # END OF FUNCTION # 3 updated
+```
+
+
+
+```{r}
+fig_homes <- create_homes_plot_simple_3brks(map_data, 2021)
+
+fig_removals <- create_removals_plot_simple_3brks(map_data, 2021)
+
+
+grid.arrange(fig_homes+theme(plot.title = element_text(hjust = 0.5)),fig_removals+theme(plot.title = element_text(hjust = 0.5)), 
+             nrow = 1) 
+```
+
+
+
+
+
+```{r}
+create_homes_removals_plot(map_data, 2021)
+
+the_list <- extract_priority_list2(map_data, 2021)
+the_list 
+
+bar <- extract_dataframe(map_data, 2021)
+
+high_need_df <- filter(bar, fill=="#5a3f49") %>% select("Year", "County", 
+                                    "Region")
+
+table(high_need_df$Region)
+
+high_need_df <- within(high_need_df, 
+                   Region<- factor(Region, 
+                                      levels=names(sort(table(Region), 
+                                                        decreasing=FALSE))))
+ggplot(high_need_df, aes(y = Region)) +
+  geom_bar(fill="#5a3f49") + theme(axis.text.x = element_text(color="black", size=12, angle=0)) + theme(axis.text.y = element_text(color="black", size=12, angle=0)) + labs(y = "Texas Region", x = "High-need County Count") + theme(text = element_text(size = 14)) 
+
+
+```
+
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#000000'>2011</span>  <span style='color:#ececec'>2013  2015  2017  2019  2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2016) 
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10)) 
+
+```
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#ececec'>2011</span>  <span style='color:#000000'>2013</span>  <span style='color:#ececec'>2015  2017  2019  2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2013) 
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10)) 
+```
+
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#ececec'>2011  2013</span>  <span style='color:#000000'>2015</span>  <span style='color:#ececec'>2017  2019  2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2015) 
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10)) 
+```
+
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#ececec'>2011  2013  2015</span>  <span style='color:#000000'>2017</span>  <span style='color:#ececec'>2019  2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2017) 
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10))
+```
+
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#ececec'>2011  2013  2015  2017</span>  <span style='color:#000000'>2019</span>  <span style='color:#ececec'>2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2019)
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10))
+```
+
+```{r}
+library(ggtext) 
+
+my_caption = "<span style='color:#ececec'>2011  2013  2015  2017  2019</span>  <span style='color:#000000'>2021</span>"
+
+fig = create_homes_plot_simple(map_data, 2021) 
+fig + 
+  labs(caption=my_caption) + 
+  theme(plot.caption = element_text(hjust=0.15, size=rel(1.22))) +
+  theme(
+    plot.caption = element_markdown(lineheight = 1.1, size=20, face="bold"), 
+    text=element_text(size=12)
+  ) + theme(legend.text=element_text(size=10)) 
+```
+
+
+
+
+
+
+
