@@ -26,6 +26,7 @@ texas0 <- texas0 %>% mutate(CNTY_NM = replace(CNTY_NM, CNTY_NM == "De Witt", "De
 
 
 ```{r}
+# potentially use econ_regions
 econ_regions <-read.csv("../Data/econ_region_counties.csv")
 
 ```
@@ -125,6 +126,11 @@ map_data <- texas_children %>% merge(econ_regions,by=c("County")) %>%
 map_data$Homes_Total_County_per100K = (map_data$Homes_Total_County/map_data$Total_Population)*100000
 map_data$Removals_Total_County_per1K = (map_data$Removals_Total_County/map_data$Child_Population)*1000
 
+# split the Region column, using the Region number in next Figure
+map_data$DFPS_Region = map_data$Region
+map_data <- map_data %>% separate(Region, c("DReg_Num", "Region"), "-")
+map_data$DReg_Num <- as.numeric(as.character(map_data$DReg_Num))
+
 # Change NAs to Zeros
 map_data$Homes_Total_County[is.na(map_data$Homes_Total_County)] <- 0
 map_data$Removals_Total_County[is.na(map_data$Removals_Total_County)] <- 0
@@ -132,7 +138,76 @@ map_data$Removals_Total_County[is.na(map_data$Removals_Total_County)] <- 0
 map_data$Homes_Total_County_per100K[is.na(map_data$Homes_Total_County_per100K)] <- 0
 map_data$Removals_Total_County_per1K[is.na(map_data$Removals_Total_County_per1K)] <- 0
 
+```
+
+
+```{r}
+# ------------------------------------------------
+# Community Based Care
+# Account for Counties Transitioning to Community Based Care (CBC)
+# In CBC, DFPS transfers foster care services to a single contractor
+# in a designated geographical area. i.e. DFPS doesn't screen FAD homes
+# ------------------------------------------------
+
+map_data$CBC = "DFPS"
+
+# Region 3B began  Sept 1, 2014 
+# Includes Tarrant, Erath, Hood, Johnson, Palo Pinto, Parker,and Somervell
+map_data$CBC[(map_data$Year %in% c(2015, 2016,2017,2018,2019,2020,2021)) & 
+           (map_data$County %in% c("Tarrant","Erath","Hood","Johnson","Palo Pinto", "Parker", "Somervell"))] <- "CBC" 
+
+# Region 2 began Dec 1, 2018 (all 30 counties)
+map_data$CBC[(map_data$Year %in% c(2019,2020,2021)) & 
+           (map_data$DReg_Num == 2)] <- "CBC" 
+
+# Region 8A began Feb 1, 2019 (Bexar county)
+map_data$CBC[(map_data$Year %in% c(2019,2020,2021)) & 
+           (map_data$County == "Bexar")] <- "CBC" 
+
+# Region 1 began Jan 6, 2020 (all 41 counties)
+map_data$CBC[(map_data$Year %in% c(2020,2021)) & 
+           (map_data$DReg_Num == 1)] <- "CBC"
+
+# Region 8B began Oct 27, 2021 (all counties in Region 8, except Bexar)
+# not modifying the dataframe
+```
+
+```{r}
+#---------------------------------------------------------
+# Modify the Homes dataframe to account for CBC as well
+#---------------------------------------------------------
+Homes$CBC = "DFPS"
+
+# Region 3B began  Sept 1, 2014 
+# Includes Tarrant, Erath, Hood, Johnson, Palo Pinto, Parker,and Somervell
+Homes$CBC[(Homes$Year %in% c(2015, 2016,2017,2018,2019,2020,2021)) & 
+           (Homes$County %in% c("Tarrant","Erath","Hood","Johnson","Palo Pinto", "Parker", "Somervell"))] <- "CBC" 
+
+# Region 2 began Dec 1, 2018 (all 30 counties)
+Homes$CBC[(Homes$Year %in% c(2019,2020,2021)) & 
+           (Homes$Region == "2-Abilene")] <- "CBC" 
+
+# Region 8A began Feb 1, 2019 (Bexar county)
+Homes$CBC[(Homes$Year %in% c(2019,2020,2021)) & 
+           (Homes$County == "Bexar")] <- "CBC" 
+
+# Region 1 began Jan 6, 2020 (all 41 counties)
+Homes$CBC[(Homes$Year %in% c(2020,2021)) & 
+           (Homes$Region == "1-Lubbock")] <- "CBC"
+
+# Region 8B began Oct 27, 2021 (all counties in Region 8, except Bexar)
+# not modifying the dataframe
+
+write_csv(Homes, "../CData/Homes.csv")
+write_csv(Homes, "CData/Homes.csv")
+
+```
+
+
+```{r}
+# Save in two locations
 write_csv(map_data, "../CData/Shiny_map_data.csv")
+write_csv(map_data, "CData/Shiny_map_data.csv")
 
 ```
 

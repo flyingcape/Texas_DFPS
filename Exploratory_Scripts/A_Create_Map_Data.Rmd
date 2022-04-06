@@ -1,0 +1,276 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(dplyr) 
+library(tidyr) 
+library(ggplot2) 
+library(readr)
+library(usmap)
+library(gridExtra)
+
+```
+
+```{r}
+# library(usmap)
+texas0<-read.csv("Data/Texas_Counties_Centroid_Map.csv")
+texas0 = rename(texas0, lat = X..Lat.)
+texas0 = rename(texas0, lon = Y..Long.)
+texas0$group = replicate(254,1)
+texas0 = rename(texas0, fips = FIPS)
+
+texas0 <- texas0 %>% mutate(CNTY_NM = replace(CNTY_NM, CNTY_NM == "De Witt", "DeWitt"))
+
+write_csv(texas0, "CData/texas0.csv")
+```
+
+
+```{r}
+# Texas Children (Population)
+Children_TX_2011 <- read_csv("Data/CPI_1.1_Texas_Child_Population__ages_0-17__by_County_2010-2020.csv") %>% filter(Year == "2011") 
+
+Children_TX_new <- read_csv("Data/CPI_1.1_Texas_Child_Population__ages_0-17__by_County_2012-2021.csv")
+
+Children_TX <- rbind(Children_TX_new,Children_TX_2011)
+
+Children_TX <- Children_TX %>% filter(County != "All Counties")
+
+# Cleaning Raw Data
+Children_TX$Year = as.factor(Children_TX$Year)
+Children_TX = rename(Children_TX, Child_Population = `Child Population`)
+Children_TX = rename(Children_TX, Total_Population = `Total Population`)
+write_csv(Children_TX, "CData/Children_TX.csv")
+
+texas_children <- merge(texas0, Children_TX, by.x = "CNTY_NM", by.y = 'County', all = TRUE) %>% select("lon", "lat", "fips", "CNTY_NM","Region","Child_Population","Total_Population", "Year") %>% rename(County = CNTY_NM)
+
+# -------------------
+# Plot 2
+# -------------------
+texas_children_year <- filter(texas_children, Year == "2021") 
+
+plot_usmap(data = texas_children_year, values = "Child_Population", include = c("TX"), color = "black") +
+  scale_fill_binned(name = "Total", low = "#ced4d0", high = "#2e7265", na.value = "white")
+```
+
+
+```{r}
+# Texas Children in DFPS Custody
+Children_DFPS_2011<- read_csv("Data/CPS_2.3_Children_In_DFPS_Legal_Responsibility_During_the_Fiscal_Year_by_County_with_Demographics_FY2011-2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Children_DFPS_new <- read_csv("Data/CPS_2.3_Children_In_DFPS_Legal_Responsibility_During_the_Fiscal_Year_by_County_with_Demographics_FY2012-2021.csv")
+
+Children_DFPS <- rbind(Children_DFPS_new,Children_DFPS_2011)
+
+# Cleaning Raw Data
+Children_DFPS = rename(Children_DFPS, Year = `Fiscal Year`)
+Children_DFPS$Year = as.factor(Children_DFPS$Year)
+Children_DFPS = rename(Children_DFPS, Count = `Count of Children in DFPS Custody`)
+Children_DFPS$Age_Group <- ifelse(Children_DFPS$Age <6 , "0 to 5 Years", ifelse(Children_DFPS$Age>=6 & Children_DFPS$Age<13,"6 to 12 Years","13 to 18 Years"))
+Children_DFPS$Age_Group = as.factor(Children_DFPS$Age_Group)
+Children_DFPS$Age_Group <- factor(Children_DFPS$Age_Group, levels = c("13 to 18 Years", "6 to 12 Years", "0 to 5 Years"))
+write_csv(Children_DFPS, "CData/Children_DFPS.csv")
+
+# Map Data Organizing (we need county totals)
+Children_byCounty <- Children_DFPS %>% group_by(County, Year) %>% mutate(Total_County = sum(Count)) %>% 
+  select("Year","County","Region","Total_County") %>% 
+  distinct("County", "Year", .keep_all = TRUE) %>%
+  select("Year","County","Region","Total_County")
+
+texas_children_dfps <- merge(texas0, Children_byCounty, by.x = "CNTY_NM", by.y = 'County', all = TRUE) %>% select("lon", "lat", "fips", "CNTY_NM","Region","Total_County", "Year") %>% rename(County = CNTY_NM)
+
+texas_children_dfps = rename(texas_children_dfps, DFPS_children_Total_County = Total_County)
+
+# -------------------
+# Plot 2
+# -------------------
+texas_children_dfps_year <- filter(texas_children_dfps, Year == "2021") 
+
+plot_usmap(data = texas_children_dfps_year, values = "DFPS_children_Total_County", include = c("TX"), color = "black") + 
+  scale_fill_binned(name = "Total", low = "#ced4d0", high = "#2e7265", na.value = "white")
+
+```
+
+
+```{r}
+# Waiting for Adoption
+Adopt_Need_2011 <- read_csv("Data/CPS_4.1_Adoption_-_Children_Waiting_For_Adoption_on_31_August_by_County_FY2011_-_2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Adopt_Need_new <- read_csv("Data/CPS_4.1_Adoption_-_Children_Waiting_For_Adoption_on_31_August_by_County_FY2011_-_2021.csv")
+
+Adopt_Need <- rbind(Adopt_Need_new,Adopt_Need_2011)
+
+Adopt_Need = rename(Adopt_Need, Year = `Fiscal Year`)
+Adopt_Need$Year = as.factor(Adopt_Need$Year)
+Adopt_Need = rename(Adopt_Need, Count = `Children Wating for Adoption on 31 August`)
+# renaming and changing order of factors for plotting
+Adopt_Need <- Adopt_Need %>% rename(`Placement Intention` = `Current Placement Status`)
+Adopt_Need$`Placement Intention`[which(Adopt_Need$`Placement Intention` == "Placement Not Intended to be Permanent")] <- "Not Permanent"
+Adopt_Need$`Placement Intention`[which(Adopt_Need$`Placement Intention` == "Placement Intended to be Permanent")] <- "Permanent"
+Adopt_Need$`Placement Intention` = as.factor(Adopt_Need$`Placement Intention`)
+Adopt_Need$`Placement Intention` <- factor(Adopt_Need$`Placement Intention`, levels = c("Permanent", "Not Permanent"))
+write_csv(Adopt_Need, "CData/Adopt_Need.csv")
+
+# Map Data Organizing (we need county totals)
+Adopt_Need_byCounty <- Adopt_Need %>% group_by(County, Year) %>% mutate(Total_County = sum(Count)) %>% 
+  select("Year","County","Region","Total_County") %>% 
+  distinct("County", "Year", .keep_all = TRUE) %>%
+  select("Year","County","Region","Total_County")
+
+texas_Adopt_Need <- merge(texas0, Adopt_Need_byCounty, by.x = "CNTY_NM", by.y = 'County', all = TRUE) %>% select("lon", "lat", "fips", "CNTY_NM","Region", "Total_County", "Year") %>% rename(County = CNTY_NM)
+
+texas_Adopt_Need = rename(texas_Adopt_Need, Adopt_Need_Total_County = Total_County)
+
+# -------------------
+# Plot 3 & 4
+# -------------------
+texas_Adopt_Need_year <- filter(texas_Adopt_Need, Year == "2021") 
+
+plot_usmap(data = texas_Adopt_Need_year, values = "Adopt_Need_Total_County", include = c("TX"), color = "black") + 
+  scale_fill_binned(name = "Total", low = "#b7d6ce", high = "#2e7265", na.value = "white")
+
+```
+
+```{r}
+# Homes
+Homes_2011 <- read_csv("Data/CPS_4.2_Adoption_-_DFPS_Foster__Foster_Adoptive__and_Adoptive__FAD__Homes_FY2011_-_2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Homes_new <- read_csv("Data/CPS_4.2_Adoption_-_DFPS_Foster__Foster_Adoptive__and_Adoptive__FAD__Homes_FY2012_-_2021.csv")
+
+Homes <- rbind(Homes_new,Homes_2011)
+
+# Cleaning Raw Data
+Homes = rename(Homes, Year = `Fiscal Year`)
+Homes$Year = as.factor(Homes$Year)
+Homes = rename(Homes, Count = Homes)
+Homes = rename(Homes, Type = `Type of FAD Home`)
+Homes$Type[which(Homes$Type == "Adoptive Homes")] <- "Adoptive"
+Homes$Type[which(Homes$Type == "Foster/Adoptive Homes")] <- "Foster/Adoptive"
+Homes$Type[which(Homes$Type == "Foster Homes")] <- "Foster"
+# renaming and changing order of factors for plotting
+Homes$Type = as.factor(Homes$Type)
+Homes$Type <- factor(Homes$Type, levels = c("Foster/Adoptive", "Adoptive", "Foster"))
+write_csv(Homes, "CData/Homes.csv")
+
+# Map Data Organizing (we need county totals)
+Homes_byCounty <- Homes %>% group_by(County, Year) %>% mutate(Total_County = sum(Count)) %>% 
+  select("Year","County","Region","Total_County") %>% 
+  distinct("County", "Year", .keep_all = TRUE) %>%
+  select("Year","County","Region","Total_County")
+texas_homes <- merge(texas0, Homes_byCounty, by.x = "CNTY_NM", by.y = 'County') %>% select("lon", "lat", "fips", "CNTY_NM","Region","Total_County","Year") %>% rename(County = CNTY_NM)
+
+texas_homes = rename(texas_homes, Homes_Total_County = Total_County)
+
+# Plot 
+texas_homes_year <- filter(texas_homes, Year == "2021") 
+
+plot_usmap(data = texas_homes_year, values = "Homes_Total_County", include = c("TX"), color = "black") + 
+  scale_fill_continuous(low = "light gray", high = "black", na.value = "red")
+
+```
+
+```{r}
+# Removals
+Removals_2011 <- read_csv("Data/CPS_2.1_Removals_-_by_County_FY2011-2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+Removals_new <- read_csv("Data/CPS_2.1_Removals_-_by_County_FY2012-2021.csv")
+
+Removals <- rbind(Removals_new,Removals_2011)
+
+# Cleaning Raw Data
+Removals = rename(Removals, Year = `Fiscal Year`)
+Removals$Year = as.factor(Removals$Year)
+write_csv(Removals, "CData/Removals.csv")
+
+# Map Data Organizing (we need county totals)
+Removals_byCounty <- Removals %>% group_by(County, Year) %>% mutate(Total_County = sum(Removals)) %>% 
+  select("Year","County","Region","Total_County") %>% 
+  distinct("County", "Year", .keep_all = TRUE) %>%
+  select("Year","County","Region","Total_County")
+texas_Removals <- merge(texas0, Removals_byCounty, by.x = "CNTY_NM", by.y = 'County') %>% select("lon", "lat", "fips", "CNTY_NM","Region","Total_County","Year") %>% rename(County = CNTY_NM)
+
+texas_Removals = rename(texas_Removals, Removals_Total_County = Total_County)
+
+# Plot 
+texas_Removals_year <- filter(texas_Removals, Year == "2021") 
+
+plot_usmap(data = texas_Removals_year, values = "Removals_Total_County", include = c("TX"), color = "black") + 
+  scale_fill_continuous(low = "light gray", high = "black", na.value = "red")
+
+```
+
+
+```{r}
+PEI_Families_Served_2011 <- read_csv("Data/PEI_2.1_Families_Served_During_Fiscal_Year_by_Program_FY2011-2020.csv") %>% filter(`Fiscal Year` == "2011") 
+
+PEI_Families_Served_new <- read_csv("Data/PEI_2.1_Families_Served_During_Fiscal_Year_by_Program_FY2012-2021.csv")
+
+PEI_Families_Served <- rbind(PEI_Families_Served_new,PEI_Families_Served_2011)
+
+PEI_Families_Served = rename(PEI_Families_Served, Year = `Fiscal Year`)
+PEI_Families_Served = rename(PEI_Families_Served, Families_Served = `Families Served`)
+PEI_Families_Served$Year = as.factor(PEI_Families_Served$Year)
+
+# PEI_Families_Served <- PEI_Families_Served %>% pivot_wider(names_from = Program, values_from = Families_Served) %>% select("County", "Year", "Region", "HOPES", "HIP", "TNFP", starts_with("THV"))
+
+PEI_Families_Served <- PEI_Families_Served %>%
+  filter(Program %in% c("HOPES", "TNFP", "THV STATE", "THV MIECHV", "HIP"))
+
+write_csv(PEI_Families_Served, "CData/PEI_Families_Served.csv")
+
+# Map Data Organizing (we need county totals)
+PEI_Families_byCounty <- PEI_Families_Served %>% pivot_wider(names_from = Program, values_from = Families_Served) %>% select("County", "Year", "Region", "HOPES", "HIP", "TNFP", starts_with("THV")) %>%
+  rename(Total_Families_Served_HOPES = HOPES) %>% 
+  rename(Total_Families_Served_TNFP = TNFP) %>% 
+  rename(Total_Families_Served_THV_STATE = `THV STATE`) %>% 
+  rename(Total_Families_Served_THV_MIECHV = `THV MIECHV`) %>%
+  rename(Total_Families_Served_HIP = `HIP`)
+
+texas_PEI_Families <- merge(texas0, PEI_Families_byCounty, by.x = "CNTY_NM", by.y = 'County', all = TRUE) %>% select("lon", "lat", "fips", "CNTY_NM","Region","Year",starts_with("Total_Families_Served")) %>% rename(County = CNTY_NM)
+
+# Need to add these two columns -  having issues with NAs
+temp1 = texas_PEI_Families$Total_Families_Served_THV_MIECHV
+temp2 = texas_PEI_Families$Total_Families_Served_THV_STATE
+temp1[is.na(temp1)] <- 0
+temp2[is.na(temp2)] <- 0
+texas_PEI_Families$Total_Families_Served_THV = temp1 + temp2
+# turning the zeros to NAs
+texas_PEI_Families$Total_Families_Served_THV[texas_PEI_Families$Total_Families_Served_THV == 0] <- NA
+
+# Plot 
+texas_PEI_Families_year <- filter(texas_PEI_Families, Year == "2021") 
+
+plot_usmap(data = texas_PEI_Families_year, values = "Total_Families_Served_THV", include = c("TX"), color = "black") + 
+  scale_fill_continuous(low = "light gray", high = "black", na.value = "red")
+
+```
+
+
+```{r}
+map_data <- texas_children %>% merge(texas_children_dfps, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+  merge(texas_Adopt_Need, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+  merge(texas_homes, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+    merge(texas_Removals, by=c("Region","County","Year","fips","lon","lat"), all = TRUE) %>%
+  merge(texas_PEI_Families, by=c("Region","County","Year","fips","lon","lat"), all = TRUE)
+
+write_csv(map_data, "CData/map_data.csv")
+
+```
+
+```{r}
+PEI_Expenditures <- read_csv("Data/PEI_5.1_Expenditures_FY16_-_2021.csv")
+
+PEI_Expenditures = rename(PEI_Expenditures, Year = `FISCAL_YEAR`)
+PEI_Expenditures$Year = as.factor(PEI_Expenditures$Year)
+
+PEI_Expenditures <- PEI_Expenditures %>% pivot_wider(names_from = PROGRAM, values_from = EXPENDITURES) %>% 
+  select("Year", starts_with("HOPES"), starts_with("TNFP"), starts_with("THV"), starts_with("HIP")) %>%
+  rename(HOPES = `HOPES - Healthy Outcomes through Prevention and Early Support`) %>%
+  rename(TNFP = `TNFP - Texas Nurse Family Partnership`) %>%
+  rename(THV = `THV - Texas Home Visiting Program`) %>%
+  rename(HIP = `HIP - Helping through Intervention and Prevention`) 
+
+write_csv(PEI_Expenditures, "CData/PEI_Expenditures.csv")
+
+```
+
